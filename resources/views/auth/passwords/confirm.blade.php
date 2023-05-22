@@ -4,6 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+        <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
             <div class="card">
                 <div class="card-header">{{ __('Confirm Password') }}</div>
 
@@ -43,6 +50,13 @@
                     </form>
                 </div>
             </div>
+            <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
         </div>
     </div>
 </div>
