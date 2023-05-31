@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('subscription_id');
+            $table->unsignedBigInteger('subscription_id')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string('reference');
             $table->string('status');
             $table->string('amount');
