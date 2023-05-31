@@ -31,7 +31,7 @@
 					<div class="call_to_action_hello">
 						<div class="call_to_action_left_two">
 							<h2>LIVE HEALTHY?</h2>
-							<p>Try out our suppliment & enjoy the healthiest life. Discounts end soon!</p>
+							<p>Try out our subscription & enjoy the healthiest life. Get access to unlimited articles</p>
 						</div>
 						<div class="call_to_action_right_two">
 							<a href="#" class="btn_four">Purchase</a>

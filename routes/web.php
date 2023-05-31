@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +29,16 @@ Route::get('/post/{id}', [App\Http\Controllers\PostsController::class , 'post'])
 
 Route::get('/blogSearch', [App\Http\Controllers\PostsController::class , 'blogSearch'])->name('blogSearch');
 
-
 // Route::post('/commentPost', [App\Http\Controllers\PostsController::class , 'commentPost'])->name('commentPost');
 
 Route::get('/blogCategory/{id}', [App\Http\Controllers\PostsController::class , 'blogCategory'])->name('blogCategory');
 
-// Route::get('subscribe')
+Route::get('subscriptions' , [App\Http\Controllers\SubscriptionController::class , 'subscription'])->name('subscriptions');
+
+Route::get('getBraintreeToken', [PaymentsController::class, 'getBraintreeToken'])->middleware('auth');
+
+Route::post('subscription-checkout', [PaymentsController::class, 'makePayment'])->name('payment.make');
+
+Route::get('payment-success',[PaymentsController::class, 'paymentSuccess']);
+
 

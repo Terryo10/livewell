@@ -32,10 +32,10 @@
 						<div class="entry-content">
 						<p>{!!$postContent!!}</p>
 							@guest
-							<li><a href="#" class="prev"><i class="fas fa-angle-double-right"></i> CONTINUE READING</a></li>
+							<li><a href="#"  wire:click="continueReading" class="prev"><i class="fas fa-angle-double-right"></i> CONTINUE READING</a></li>
 							@else
 							@if(!$canRead)
-							<li><a href="#" class="prev"><i class="fas fa-angle-double-right"></i> SUBSCRIBE TO CONTINUE READING</a></li>
+							<li><a href="#" wire:click="continueReading" class="prev"><i class="fas fa-angle-double-right"></i> SUBSCRIBE TO CONTINUE READING</a></li>
 							@endif
 							@endguest
 							

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use \App\Models\Pricing;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user=Auth::user();
-        return view('home')->with('user',$user);
+        $pricing = Pricing::all();
+        $user=Auth::user();  
+        $token = $this->getBraintreeToken();
+        return view('home')
+            ->with('user',$user,)
+            ->with('token', $token)
+            ->with('pricing',$pricing[0]);
     }
 }

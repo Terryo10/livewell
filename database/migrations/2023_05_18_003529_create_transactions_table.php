@@ -17,9 +17,12 @@ return new class extends Migration
             $table->unsignedBigInteger('subscription_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
-            $table->string('transaction_id');
-            $table->string('transaction_status');
-            $table->string('transaction_amount');
+            $table->string('reference');
+            $table->string('status');
+            $table->string('amount');
+            $table->string('currency');
+            $table->string('payment_method');
+            $table->string('status_url');
             $table->timestamps();
         });
     }

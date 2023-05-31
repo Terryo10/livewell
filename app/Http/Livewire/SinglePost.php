@@ -11,20 +11,21 @@ class SinglePost extends Component
 {
     public $post;
     public $postContent;
+    public $canRead = false;
 
     public function render()
     {
 
         $user = Auth::user();
         $this->postContent = Str::limit($this->post->content, 500);
-        $canRead = false;
+       
         if ($user != null) {
             if ($user->subscribed != null) {
                 if ($user->subscribed->expires_at > Carbon::now()) {
                     $this->postContent = $this->post->content;
-                    $canRead = true;
+                    $this->canRead = true;
                 } else {
-                    $canRead = false;
+                    $this->canRead = false;
                 }
             }
         }
@@ -32,14 +33,15 @@ class SinglePost extends Component
             'livewire.single-post',
             [
                 'post' => $this->post,
-                'canRead' => $canRead,
-                'postContent' => $$this->postContent
+                'canRead' => $this->canRead,
+                'postContent' => $this->postContent
             ]
         );
     }
 
     public function continueReading()
     {
-        $this->postContent = $this->post->content;
+        //navigate to subscription page
+        return redirect()->route('subscriptions');
     }
 }

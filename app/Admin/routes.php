@@ -16,4 +16,5 @@ Route::group([
         $router->resource('blog-categories', BlogCategoryController::class);
         $router->resource('posts', PostController::class);
         $router->resource('post-comments', PostCommentController::class);
+        $router->resource('pricings', PricingController::class);
 });
