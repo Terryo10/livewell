@@ -79,35 +79,41 @@
                                         <li class="cart">
                                             <i class="fas fa-shopping-basket"></i>
                                             <div class="cart_detail">
-                                                <div class="single_cart">
-                                                    <div class="cart_left">
-                                                        <img src="{{ asset('gymer/media/images/banner-two/cart-one.png') }}"
-                                                            alt="">
+                                                @foreach ($cartItemsGlobal as $cartItems)
+                                                    <div class="single_cart">
+                                                        <div class="cart_left">
+                                                            <img src="{{ asset('gymer/media/images/banner-two/cart-one.png') }}"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="cart_right">
+                                                            <h3>Vaxin Regular Big Name</h3>
+                                                            <p>$66 <sup>USD</sup></p>
+                                                        </div>
                                                     </div>
-                                                    <div class="cart_right">
-                                                        <h3>Vaxin Regular Big Name</h3>
-                                                        <p>$66 <sup>USD</sup></p>
+                                                @endforeach
+
+                                                @if (!$cartItemsGlobal)
+                                                    <div class="cart_more">
+                                                        <a href="/shop">YOUR CART IS EMPTY CONTINUE SHOPPING<i
+                                                                class="fa fa-angle-right"></i></a>
                                                     </div>
-                                                </div>
-                                                <div class="single_cart">
-                                                    <div class="cart_left">
-                                                        <img src="{{ asset('gymer/media/images/banner-two/cart-two.png') }}"
-                                                            alt="">
-                                                    </div>
-                                                    <div class="cart_right">
-                                                        <h3>Vaxin Woman</h3>
-                                                        <p>$76 <sup>USD</sup></p>
-                                                    </div>
-                                                </div>
+                                                @endif
+
                                                 <div class="cart_more">
-                                                    <a href="#">View Cart <i class="fa fa-angle-right"></i></a>
+                                                    <a href="/cart">View Cart <i class="fa fa-angle-right"></i></a>
                                                 </div>
                                             </div>
                                         </li>
                                         <li class="phone">
-                                            <a href="#">
+                                            <a tel:+27 72 154 7121>
                                                 <i class="fas fa-phone"></i>
-                                                Call +263 772 123 456
+                                                Call +263 71 284 5358
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a tel:+27 72 154 7121>
+                                                <i class="fas fa-phone"></i>
+                                                Call +27 72 154 7121
                                             </a>
                                         </li>
                                     </ul>
@@ -125,8 +131,9 @@
                             <div class="col-auto mr-auto">
                                 <div class="header_logo">
                                     <a href="/">
-                                        <img class="logo-default" src="{{ asset('logo.png')}}" alt="" style="height:90px;">
-                                        <img class="logo-white" src="{{ asset('logo.png')}}" style="height:90px;"
+                                        <img class="logo-default" src="{{ asset('logo.png') }}" alt=""
+                                            style="height:90px;">
+                                        <img class="logo-white" src="{{ asset('logo.png') }}" style="height:90px;"
                                             alt="">
                                     </a>
                                 </div>
@@ -162,6 +169,10 @@
                                                 </li>
                                             @endif
                                         @else
+                                            <li>
+                                                <a href="/home">My Account</a>
+
+                                            </li>
                                             <li>
                                                 <a class="current_page_item active"
                                                     href="#">{{ Auth::user()->name }} <span
@@ -230,7 +241,7 @@
                         <div class="bottom_nav bottom_nav_two">
                             <div id="mobile-logo">
                                 <a href="/">
-                                    <img src="{{ asset('logo.png')}}" alt="" style="height:90px;">
+                                    <img src="{{ asset('logo.png') }}" alt="" style="height:90px;">
                                 </a>
                             </div>
                             <div class="toggle-inner">
@@ -291,15 +302,15 @@
                     <br>
                     <br>
                     <br>
-                    <br> <br>
+                    <br>
+                    <br>
                     <div class="container">
                         <div class="alert alert-danger">
 
-                                <li>{{ $errors->first() }}</li>
+                            <li>{{ $errors->first() }}</li>
 
                         </div>
                     </div>
-
                 @endif
                 @yield('content')
             </div>
@@ -308,8 +319,8 @@
                 <div class="vigo_container_one">
                     <div class="footer_five_top">
                         <div class="footer_five_top_left">
-                            <a href="#" class="logo">
-                                <img src="media/images/home6/footer-logo.png" alt="#">
+                            <a href="/" class="logo">
+                                <img src="{{ asset('logo.png') }}" style="height:100px;" alt="">
                             </a>
                         </div>
                         <div class="footer_five_top_right">
@@ -330,9 +341,9 @@
                     <div class="footer_five_middle clearfix">
                         <div class="widget widget5">
                             <div class="widget5_about">
-                                <p>Vaxin Internationals Ltd. Suite 109, Floor 5 240 New Canberra WA 1234, AUSTRALIA</p>
+                                <p>60 Lorrein drive, bluffhill Harare</p>
                             </div>
-                            <div class="widget5_social">
+                            {{-- <div class="widget5_social">
                                 <a href="#">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
@@ -345,113 +356,42 @@
                                 <a href="#">
                                     <i class="fab fa-tumblr"></i>
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
-                        <div class="widget widget5">
-                            <div class="widget5_title">
-                                <h3>Company</h3>
-                            </div>
-                            <div class="widget5_desc">
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    About us
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Delivery Information
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Terms & Conditions
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Privacy Policy
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    FAQs
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Refund Policy
-                                </a>
-                            </div>
-                        </div>
+                    
                         <div class="widget widget5">
                             <div class="widget5_title">
                                 <h3>USEFUL LINKS</h3>
                             </div>
                             <div class="widget5_desc">
-                                <a href="#">
+                                <a href="/shop">
                                     <i class="fas fa-caret-right"></i>
-                                    Themes & Templates
+                                   Shop
                                 </a>
-                                <a href="#">
+                                <a href="/home">
                                     <i class="fas fa-caret-right"></i>
-                                    Delivery Information
+                                   Account
                                 </a>
-                                <a href="#">
+                                <a href="/posts">
                                     <i class="fas fa-caret-right"></i>
-                                    Terms & Conditions
+                                    Blog
                                 </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Privacy Policy
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    FAQs
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Refund Policy
-                                </a>
+                               
                             </div>
                         </div>
-                        <div class="widget widget5">
-                            <div class="widget5_title">
-                                <h3>from the feed</h3>
-                            </div>
-                            <div class="widget5_desc">
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Themes & Templates
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Delivery Information
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Terms & Conditions
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Privacy Policy
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    FAQs
-                                </a>
-                                <a href="#">
-                                    <i class="fas fa-caret-right"></i>
-                                    Refund Policy
-                                </a>
-                            </div>
-                        </div>
-                        <div class="widget widget5">
+                      
+                        {{-- <div class="widget widget5">
                             <div class="widget5_title">
                                 <h3>other LInks</h3>
                             </div>
                             <div class="widget5_tweet">
                                 <div id="twitter_feed"></div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="footer_five_bottom">
                         <div class="footer_four_bottom_left">
-                            <p>Copyright© <a href="#">ThemeIM</a> | All Rights Reserved</p>
+                            <p>Copyright© <a href="https://designave.co.zw">Designave</a> | All Rights Reserved</p>
                         </div>
                         <div class="footer_four_bottom_right">
                             <a href="#">

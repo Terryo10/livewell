@@ -7,7 +7,7 @@
 <section class="breadcrumb_area">
     <div class="vigo_container_two">
         <div class="page_header">
-            <h1>LiveWell World Blog</h1>
+            <h1>LiveWell World Articles</h1>
         </div>
         <!-- /.page-header -->
     </div>

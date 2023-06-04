@@ -33,6 +33,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $with = [ 'cart','temporaryAddress','orders'];
+
     /**
      * The attributes that should be cast.
      *
@@ -46,4 +48,20 @@ class User extends Authenticatable
     {
         return $this->hasOne(Subscriptions::class, 'user_id');
     }
+
+    public function orders(){
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    public function temporaryAddress()
+    {
+        return $this->hasOne(TemporaryAddress::class);
+
+    }
+
 }

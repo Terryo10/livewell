@@ -28,9 +28,11 @@ class HomeController extends Controller
         $pricing = Pricing::all();
         $user=Auth::user();  
         $token = $this->getBraintreeToken();
+        $orders = auth::user()->orders;
         return view('home')
             ->with('user',$user,)
             ->with('token', $token)
-            ->with('pricing',$pricing[0]);
+            ->with('pricing',$pricing[0])
+            ->with('orders', $orders);
     }
 }
