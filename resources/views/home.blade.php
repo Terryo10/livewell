@@ -67,7 +67,7 @@
                                 @foreach ($items->order_items as $lols)
                                     <div class="uk-width-auto">
                                         <img class="uk-comment-avatar uk-border-circle"
-                                            src="/storage/product_images/{{ $lols->product['imagePath'] }}" width="50"
+                                            src="/upload/{{ $lols->product['image'] }}" width="50"
                                             height="50" alt="Product Image">
                                     </div>
                                     <br>

@@ -6,6 +6,7 @@ use Braintree\Gateway;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -27,7 +28,7 @@ class Controller extends BaseController
             'privateKey' => '79dfe782ff54aa7788d7786a8143880c'
         ]);
     }
-    
+
     public function totalweb()
     {
         $user = Auth::user();

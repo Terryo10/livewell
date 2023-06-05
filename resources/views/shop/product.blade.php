@@ -76,22 +76,24 @@
                         </div>
                     </div>
 
-                    <form action="#" class="product-cart" method="post">
+                    <form action="{{route('savetocart')}}" class="product-cart" method="post">
+                    @csrf
                         <div class="product-quantity quantity">
                             <input id="Quantity" name="quantity" value="1" data-product-qty=""
-                                class="cart__quantity-selector quantity-selector" type="text">
+                                class="cart__quantity-selector quantity-selector" type="text" min="1" max="{{$product->stock}}" >
                             <input value="-" class="qtyminus looking" type="button">
                             <input value="+" class="qtyplus looking" type="button">
                         </div>
+                        <input type="hidden" name="product_id" value="{{$product->id}}">
                         <div class="ingredient_slider_btn">
-                            <a href="#" class="single_add_to_cart_button">
+                            <button type="submit" class="single_add_to_cart_button">
                                 <i class="fas fa-shopping-cart"></i>
-                                ADD THIS
-                            </a>
-                            <a class="this_heart" href="#">
+                                ADD TO CART
+                            </button>
+                            {{-- <a class="this_heart" href="#">
                                 <i class="far fa-heart"></i>
-                            </a>
-                            <p><i class="fas fa-check"> </i> ADDED TO CART SUCCESSFULLY !</p>
+                            </a> --}}
+                            {{-- <p><i class="fas fa-check"> </i> ADDED TO CART SUCCESSFULLY !</p> --}}
                         </div>
                     </form>
                 </div>
@@ -119,7 +121,6 @@
                                  {{$product->description}}
                                 </p>
                             </div>
-                            
                             
                             <div class="tab-pane fade" id="reviews" role="tabpanel">
                                 <div class="review_detail">
@@ -233,315 +234,6 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="product_share">
-                <ul>
-                    <li class="facebook">
-                        <a href="#">
-                            <i class="fab fa-facebook-f"></i>
-                            <span><i class="fab fa-facebook-f"></i> - SHARE ON FACEBOOK</span>
-                        </a>
-                    </li>
-                    <li class="twitter">
-                        <a href="#">
-                            <i class="fab fa-twitter"></i>
-                            <span><i class="fab fa-twitter"></i> - SHARE ON Twitter</span>
-                        </a>
-                    </li>
-                    <li class="instagram">
-                        <a href="#">
-                            <i class="fab fa-instagram"></i>
-                            <span><i class="fab fa-instagram"></i> - SHARE ON INSTAGRAM</span>
-                        </a>
-                    </li>
-                    <li class="gplus">
-                        <a href="#">
-                            <i class="fab fa-google-plus-g"></i>
-                            <span><i class="fab fa-google-plus-g"></i> - SHARE ON GOOGLE PLUS</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!--==========================-->
-    <!--=        Related product         =-->
-    <!--==========================-->
-    <section class="related_product related_product_two">
-        <div class="vigo_container_two">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="related_product_title">
-                        <h1>RELATED PRODUCTS</h1>
-                    </div>
-                    <div class="related_product_slider owl-carousel">
-                        <div class="sn_related_product">
-                            <div class="sn_pd_img">
-                                <a href="#">
-                                    <img src="media/images/banner-two/related-pd-one.png" alt="">
-                                </a>
-                            </div>
-                            <div class="sn_pd_rating">
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                            </div>
-                            <div class="sn_pd_detail">
-                                <h5><a href="#">Vaxin Regular (500mg), Mild Intake</a></h5>
-                                <ins>
-                                    <span>$16.00</span>
-                                </ins>
-                                <del>
-                                    <span>$20.00</span>
-                                </del>
-                            </div>
-                        </div>
-                        <div class="sn_related_product">
-                            <div class="sn_pd_img">
-                                <a href="#">
-                                    <img src="media/images/banner-two/relate-pd-two.png" alt="">
-                                </a>
-                            </div>
-                            <div class="sn_pd_rating">
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                            </div>
-                            <div class="sn_pd_detail">
-                                <h5><a href="#">Vaxin Regular (500mg), Mild Intake</a></h5>
-                                <ins>
-                                    <span>$16.00</span>
-                                </ins>
-                                <del>
-                                    <span>$20.00</span>
-                                </del>
-                            </div>
-                        </div>
-                        <div class="sn_related_product">
-                            <div class="sn_pd_img">
-                                <a href="#">
-                                    <img src="media/images/banner-two/related-pd-three.png" alt="">
-                                </a>
-                            </div>
-                            <div class="sn_pd_rating">
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                            </div>
-                            <div class="sn_pd_detail">
-                                <h5><a href="#">Vaxin Regular (500mg), Mild Intake</a></h5>
-                                <ins>
-                                    <span>$16.00</span>
-                                </ins>
-                                <del>
-                                    <span>$20.00</span>
-                                </del>
-                            </div>
-                        </div>
-                        <div class="sn_related_product">
-                            <div class="sn_pd_img">
-                                <a href="#">
-                                    <img src="media/images/banner-two/related-pd-four.png" alt="">
-                                </a>
-                            </div>
-                            <div class="sn_pd_rating">
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                            </div>
-                            <div class="sn_pd_detail">
-                                <h5><a href="#">Vaxin Regular (500mg), Mild Intake</a></h5>
-                                <ins>
-                                    <span>$16.00</span>
-                                </ins>
-                                <del>
-                                    <span>$20.00</span>
-                                </del>
-                            </div>
-                        </div>
-                        <div class="sn_related_product">
-                            <div class="sn_pd_img">
-                                <a href="#">
-                                    <img src="media/images/banner-two/related-pd-five.png" alt="">
-                                </a>
-                            </div>
-                            <div class="sn_pd_rating">
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                            </div>
-                            <div class="sn_pd_detail">
-                                <h5><a href="#">Vaxin Regular (500mg), Mild Intake</a></h5>
-                                <ins>
-                                    <span>$16.00</span>
-                                </ins>
-                                <del>
-                                    <span>$20.00</span>
-                                </del>
-                            </div>
-                        </div>
-                        <div class="sn_related_product">
-                            <div class="sn_pd_img">
-                                <a href="#">
-                                    <img src="media/images/banner-two/relate-pd-two.png" alt="">
-                                </a>
-                            </div>
-                            <div class="sn_pd_rating">
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                            </div>
-                            <div class="sn_pd_detail">
-                                <h5><a href="#">Vaxin Regular (500mg), Mild Intake</a></h5>
-                                <ins>
-                                    <span>$16.00</span>
-                                </ins>
-                                <del>
-                                    <span>$20.00</span>
-                                </del>
-                            </div>
-                        </div>
-                        <div class="sn_related_product">
-                            <div class="sn_pd_img">
-                                <a href="#">
-                                    <img src="media/images/banner-two/related-pd-three.png" alt="">
-                                </a>
-                            </div>
-                            <div class="sn_pd_rating">
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                            </div>
-                            <div class="sn_pd_detail">
-                                <h5><a href="#">Vaxin Regular (500mg), Mild Intake</a></h5>
-                                <ins>
-                                    <span>$16.00</span>
-                                </ins>
-                                <del>
-                                    <span>$20.00</span>
-                                </del>
-                            </div>
-                        </div>
-                        <div class="sn_related_product">
-                            <div class="sn_pd_img">
-                                <a href="#">
-                                    <img src="media/images/banner-two/related-pd-four.png" alt="">
-                                </a>
-                            </div>
-                            <div class="sn_pd_rating">
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="far fa-star"></i>
-                                </a>
-                            </div>
-                            <div class="sn_pd_detail">
-                                <h5><a href="#">Vaxin Regular (500mg), Mild Intake</a></h5>
-                                <ins>
-                                    <span>$16.00</span>
-                                </ins>
-                                <del>
-                                    <span>$20.00</span>
-                                </del>
                             </div>
                         </div>
                     </div>

@@ -25,13 +25,13 @@
                                                             <div class="uk-grid-medium uk-flex-middle" data-uk-grid>
                                                                 <div class="uk-width-auto">
                                                                     <img class="uk-comment-avatar uk-border-circle"
-                                                                        src="/storage/product_images/{{ $items->product['imagePath'] }}"
+                                                                        src="/upload/{{ $items->product->image}}"
                                                                         width="50" height="50" alt="Product Image">
                                                                 </div>
                                                                 <div class="uk-width-expand">
                                                                     <h4 class="uk-comment-title uk-margin-remove"><a
                                                                             class="uk-link-reset"
-                                                                            href="#">{{ $items->product['title'] }}</a>
+                                                                            href="/shop/product/ {{$items->product['id'] }}">{{ $items->product['name'] }}</a>
                                                                     </h4>
                                                                     <p class="uk-comment-meta uk-margin-remove"><a
                                                                             class="uk-link-reset"

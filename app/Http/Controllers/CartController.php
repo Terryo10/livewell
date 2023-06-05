@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartItems;
 use App\Models\Deliveries;
 use App\Models\Order;
 use App\Models\OrderItems;
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         $user = auth::user();
 
         //check if user has cart
@@ -24,7 +26,7 @@ class CartController extends Controller
             $cart_items = $cart->cart_items;
             //return $total;
             //return $cart_items;
-            return view('cart')
+            return view('cart.cart')
                 ->with('cart_items', $cart_items)
                 ->with('total', $total);
         }
@@ -38,14 +40,12 @@ class CartController extends Controller
 
         return redirect('/shipping_details')
             ->with('success', 'Change your address here');
-
     }
 
     public function shippingStore(Request $request)
     {
         $temporaryAddress = auth::user()->temporaryAddress;
         if ($temporaryAddress == !null) {
-
         } else {
             $id = auth::user()->id;
             $temporary = new TemporaryAddress();
@@ -63,28 +63,25 @@ class CartController extends Controller
             $temporary->save();
 
             return redirect('/shipping_details')->with('success', 'Address Set');
-
         }
-
-
-
     }
 
-    public function visapay(){
+    public function visapay()
+    {
         $temporaryAddress = auth::user()->temporaryAddress;
 
 
-            if ($temporaryAddress == !null) {
+        if ($temporaryAddress == !null) {
 
-                $total = $this->totalweb();
-                $gateway = $this->gateway();
-                $token = $gateway->ClientToken()->generate();
-                return view('pay')
-                    ->with('token', $token)
-                    ->with('total', $total);
-            } else {
-                return redirect('/shipping_details')->with('error', 'You dont have a shipping addresss');
-            }
+            $total = $this->totalweb();
+            $gateway = $this->gateway();
+            $token = $gateway->ClientToken()->generate();
+            return view('pay')
+                ->with('token', $token)
+                ->with('total', $total);
+        } else {
+            return redirect('/shipping_details')->with('error', 'You dont have a shipping addresss');
+        }
 
         //check if user has a temporary address
         //token pass
@@ -149,16 +146,15 @@ class CartController extends Controller
             $order->save();
 
             $orderSaved = $order;
-            $order_items = $user->cart->cart_items ;
+            $order_items = $user->cart->cart_items;
             foreach ($order_items as $item) {
                 $order_item = new OrderItems();
                 $order_item->quantity = $item->quantity;
                 $order_item->status = 'ordered';
                 $order_item->price = $item->product['price'];
                 $order_item->product_id = $item->product_id;
-                $order_item->orders_id= $orderSaved->id;
+                $order_item->orders_id = $orderSaved->id;
                 $order_item->save();
-
             }
 
             foreach ($order_items as $item) {
@@ -166,13 +162,12 @@ class CartController extends Controller
                 //Subtract quantity
                 $product = Products::findOrFail($item->product->id);
                 $product->update([
-                    'quantity' => $productOriginalQuantity - $item->quantity,
+                    'stock' => $productOriginalQuantity - $item->quantity,
                 ]);
             }
 
             $cart->delete();
             return redirect('/home')->with('success', 'Transaction Successful: The Transaction Reference is' . $transaction->id);
-
         } else {
             $errorString = "";
 
@@ -180,7 +175,78 @@ class CartController extends Controller
                 $errorString .= 'Error: ' . $error->code . ": " . $error->message . "\n";
             }
             return back()->withErrors('An Error Occurred', $result->message);
+        }
+    }
 
+    public function saveCartWeb(Request $request)
+    {
+        $this->validate($request, [
+
+            'product_id' => 'required',
+            'quantity' => 'required|numeric|min:1'
+
+
+        ]);
+        $user = Auth::user();
+        if ($user->cart !== null) {
+            $cart = cart::find($user->cart->id);
+        } else {
+            $cart = new cart();
+            $cart->user_id = $user->id;
+            $cart->save();
+        }
+
+        $product = Products::find($request->input('product_id'));
+
+        if ($request->input('quantity') > $product->stock) {
+            return redirect()->back()->WithErrors(['message' => "The maximum purchasable items are {$product->stock}"]);
+        } else {
+
+            if ($cart_item = $this->checkProductInCart($product->id, $cart->cart_items)) {
+                $cart_item = CartItems::find($cart_item->id);
+                $cart_item->quantity = $cart_item->quantity + $request->input('quantity');
+                $cart_item->save();
+            } else {
+                $cart_item = new CartItems();
+                $cart_item->quantity = $request->input('quantity');
+                $cart_item->product_id = $request->input('product_id');
+                $cart_item->price = $product->price;
+                $cart_item->cart_id = $cart->id;
+            }
+
+            $cart_item->save();
+            return redirect()->back()->with('message', "Product {$product->name} added to cart successfully");
+        }
+    }
+
+    public function checkProductInCart($product_id, $cart_items)
+    {
+        foreach ($cart_items as $item) {
+            if ($product_id == $item->product_id) {
+                return $item;
+            }
+        }
+    }
+
+    public function deleteCartItem(Request $request)
+    {
+        $this->validate($request, [
+
+            'cart_item_id' => 'required',
+
+
+        ]);
+        $user = Auth::user();
+
+        $cart_item = CartItems::find($request->input('cart_item_id'));
+        if ($cart_item != null) {
+            $cart_item->delete();
+            return redirect()->back()->with('message', 'item removed Succesfully');
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to delete',
+            ]);
         }
 
     }

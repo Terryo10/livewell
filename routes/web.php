@@ -61,3 +61,5 @@ Route::get('cart', [CartController::class, 'index'])->name('cart')->middleware('
 Route::get('cart/delete', [CartController::class, 'deleteCartItem'])->middleware('auth');
 
 Route::post('cart/save', [CartController::class, 'savecartweb'])->name('savetocart')->middleware('auth');
+
+Route::post('/pay',[CartController::class, 'checkoutBraintree'])->name('pay.braintree')->middleware('auth');
