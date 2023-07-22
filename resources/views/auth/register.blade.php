@@ -57,10 +57,18 @@
 
 
 
+
                 <p class="sign-up-single-button">
                     <input type="submit" value=" {{ __('Register') }}">
 
                 </p>
+
+                <div class="row mb-0">
+
+                    <a class="btn btn-link" href="/login">
+                        {{ __('Already have an account ? ') }}
+                    </a>
+                </div>
             </form>
         </div>
     </div>

@@ -31,4 +31,14 @@ class ShopController extends Controller
             ->with('subcategories', $subcategories)
             ->with('productImages', $productImages);
     }
+
+    public  function category($id){
+        $category = Categories::all();
+        $subcategories =  SubCategories::all();
+        $products = Products::where('category_id', $id)->get();
+        return view('shop.product')
+            ->with('category', $category)
+            ->with('product', $products)
+            ->with('subcategories', $subcategories);
+    }
 }

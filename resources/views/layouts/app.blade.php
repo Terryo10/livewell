@@ -47,12 +47,18 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+@stack('style')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
+    <style>
+        @media (max-width: 767px) {
+            .hidden-mobile {
+                display: none;
+            }
+        }
+    </style>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
@@ -224,13 +230,17 @@
                     <div class="mobile_toolbar">
                         <div class="vigo_container_one">
                             <div class="top_toolbar_right">
-                                <div class="phone_number">
-                                    <span class="flaticon-phone-call"></span> <a href="#">+1 (895) 852–6523</a>
+                                <div class="phone_number" >
+                                    <span class="flaticon-phone-call"></span> <a tel="#" style="color: white">+263 71 284 5358</a>
                                 </div>
                                 <div class="header_login">
                                     <div class="whc_toolbar_main_login">
+                                        @guest
                                         <a href="/register">register</a>|
                                         <a href="/login">login</a>
+                                            @else
+                                            <a href="/home">My Account</a>
+                                        @endguest
                                     </div>
                                 </div>
 
@@ -256,8 +266,8 @@
             <section class="mobile-menu-inner mobile-menu-inner-two">
                 <div class="mobile_accor_togo">
                     <div class="mobile_accor_logo">
-                        <a href="index.html">
-                            <img src="assets/img/hm-two-logo.png" class="svg" alt="">
+                        <a href="/">
+                            <img src="{{ asset('logo.png') }}" class="svg" alt=""style="height:50px;">
                         </a>
                     </div>
                     <div class="close-menu">
@@ -276,6 +286,23 @@
                         <li>
                             <a href="/shop">Shop</a>
                         </li>
+                        <li>
+                            <a href="/cart">My Shopping Cart</a>
+                        </li>
+
+                            <li><a  href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}"
+                                      method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
+
+
 
                     </ul>
                 </nav>
@@ -326,10 +353,10 @@
                         <div class="footer_five_top_right">
                             <form action="#">
                                 <label>
-                                    <i class="fas fa-arrow-right"></i>
-                                    <span>SUBSCRIBE TO OUR NEWSLETTER FOR OFFERS & PROMOTIONALS.</span>
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>CHAT TO US IN OUR LIVE CHAT TO YOUR BOTTOM RIGHT.</span>
                                 </label>
-                                <input type="text" placeholder="type your email here...">
+{{--                                <input type="text" placeholder="type your email here...">--}}
                                 <button>
                                     <i class="material-icons">
                                         send
@@ -358,7 +385,7 @@
                                 </a>
                             </div> --}}
                         </div>
-                    
+
                         <div class="widget widget5">
                             <div class="widget5_title">
                                 <h3>USEFUL LINKS</h3>
@@ -376,10 +403,14 @@
                                     <i class="fas fa-caret-right"></i>
                                     Blog
                                 </a>
-                               
+                                <a href="/cart">
+                                    <i class="fas fa-caret-right"></i>
+                                    My Cart
+                                </a>
+
                             </div>
                         </div>
-                      
+
                         {{-- <div class="widget widget5">
                             <div class="widget5_title">
                                 <h3>other LInks</h3>
@@ -395,25 +426,25 @@
                         </div>
                         <div class="footer_four_bottom_right">
                             <a href="#">
-                                <img src="media/images/home6/visa.png" alt="">
+                                <img src="{{asset('gymer/media/images/home6/visa.png')}}" alt="">
                             </a>
                             <a href="#">
-                                <img src="media/images/home6/american-express.png" alt="">
+                                <img src="{{asset('gymer/media/images/home6/american-express.png')}}" alt="">
                             </a>
                             <a href="#">
-                                <img src="media/images/home6/discover.png" alt="">
+                                <img src="{{asset('gymer/media/images/home6/discover.png')}}" alt="">
                             </a>
                             <a href="#">
-                                <img src="media/images/home6/paypal.png" alt="">
+                                <img src="{{asset('gymer/media/images/home6/paypal.png')}}" alt="">
                             </a>
                             <a href="#">
-                                <img src="media/images/home6/stripe.png" alt="">
+                                <img src="{{asset('gymer/media/images/home6/stripe.png')}}" alt="">
                             </a>
                             <a href="#">
-                                <img src="media/images/home6/nettler.png" alt="">
+                                <img src="{{asset('gymer/media/images/home6/nettler.png')}}" alt="">
                             </a>
                             <a href="#">
-                                <img src="media/images/home6/payoneer.png" alt="">
+                                <img src="{{asset('gymer/media/images/home6/payoneer.png')}}" alt="">
                             </a>
                         </div>
                         <div class="backtotop">
@@ -450,6 +481,7 @@
     <!-- Site Scripts -->
     <script src="{{ asset('gymer/assets/js/middle.js') }}"></script>
     <script src="{{ asset('gymer/assets/js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

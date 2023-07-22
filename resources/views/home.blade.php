@@ -41,13 +41,14 @@
                                 {{ __('Your subscription is still active') }}
                             </div>
                             <a class="btn-btn-primary">
-                                Your subscription expires on {{ Auth::user()->subscribed->expires_at }}
+                                Your subscription expires on {{ \Carbon\Carbon::parse(Auth::user()->subscribed->expires_at)->diffForHumans() }}
                             </a>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
+
         <br>
         <div class="container">
             <div class="row justify-content-center">
@@ -82,6 +83,46 @@
                     @endforeach
 
                 </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+            @foreach ($booking as $items)
+               <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header"> Your booking ID is : {{ $items->id }}
+                        </div>
+
+                        <div class="card-body">
+                            <p>
+                                Your Booking Order Transaction Reference is
+                                ({{ $items->transaction_ref }}) <br>
+                            </p>
+                            <p>
+                                Consultation Date is :
+                                ( {{ $items->consultation->date }} ) <br>
+
+                            </p>
+                            <p>
+                                Consultation Status is :
+                                ( {{ $items->consultation->status }} ) <br>
+                            </p>
+                            <p>
+                                Phone number assigned to this consultation is :
+                                ( {{ $items->consultation->phone }} ) <br>
+                            </p>
+                            <p>
+                                There was an email sent to you with the consultation details, please check your email
+                                ( {{ Auth::user()->email }} ) for more info please chat to us in our live chat<br>
+
+                            </p>
+                        </div>
+                    </div>
+                   <br>
+                </div>
+
+                <br>
+            @endforeach
             </div>
         </div>
         <br>

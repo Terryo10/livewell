@@ -26,13 +26,16 @@ class HomeController extends Controller
     public function index()
     {
         $pricing = Pricing::all();
-        $user=Auth::user();  
+        $user=Auth::user();
+        $booking = $user->bookings()->get();
         $token = $this->getBraintreeToken();
         $orders = auth::user()->orders;
         return view('home')
             ->with('user',$user,)
             ->with('token', $token)
             ->with('pricing',$pricing[0])
-            ->with('orders', $orders);
+            ->with('orders', $orders)
+            ->with('booking',$booking);
+
     }
 }

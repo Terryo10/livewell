@@ -2,20 +2,21 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\BlogCategories;
+use App\Models\Consultation;
+use App\Models\User;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class BlogCategoryController extends AdminController
+class ConsultationController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'BlogCategories';
+    protected $title = 'Consultation';
 
     /**
      * Make a grid builder.
@@ -24,11 +25,14 @@ class BlogCategoryController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new BlogCategories());
+        $grid = new Grid(new Consultation());
 
         $grid->column('id', __('Id'));
-        $grid->column('name', __('Name'));
-        $grid->column('image_path', __('Image path'))->image();
+        $grid->column('message', __('Message'));
+        $grid->column('date', __('Date'));
+        $grid->column('user_id', __('User'))->display(function ($user_id) {
+            return User::find($user_id)->name;
+        });
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -43,11 +47,14 @@ class BlogCategoryController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(BlogCategories::findOrFail($id));
+        $show = new Show(Consultation::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('name', __('Name'));
-        $show->field('image_path', __('Image path'))->image();
+        $show->field('message', __('Message'));
+        $show->field('date', __('Date'));
+        $show->field('user_id', __('User Name'))->display(function ($user_id) {
+            return User::find($user_id)->name;
+        });
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -61,10 +68,12 @@ class BlogCategoryController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new BlogCategories());
+        $form = new Form(new Consultation());
 
-        $form->text('name', __('Name'))->required();
-        $form->image('image_path', __('Image path'));
+        $form->textarea('message', __('Message'));
+        $form->datetime('date', __('Date'))->default(date('Y-m-d H:i:s'));
+        $form->number('user_id', __('User id'));
+
         return $form;
     }
 }

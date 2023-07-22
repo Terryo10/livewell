@@ -23,13 +23,34 @@ class PostsController extends Controller
     public function post($id)
     {
         $post = Post::find($id);
-        
+
         return view('blog.singlePost')
             ->with('post', $post);
     }
 
     public function commentPost(Request $request)
     {
+
+        $validated = $request->validate([
+            'email' => 'required|unique:posts|max:255',
+            'body' => 'required',
+            'name' => 'required',
+        ]);
+
+        if ($validated) {
+            if (Auth::user()->subscribed) {
+                $post = Post::find($request->post_id);
+                $post->comments()->create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'body' => $request->body,
+                    'post_id' => $request->post_id,
+                ]);
+                return redirect()->back()->with('success', 'Comment added successfully');
+            } else {
+                return redirect()->back()->withErrors('success', 'Comment added successfully');
+            }
+        }
     }
 
     public function blogCategory($id)

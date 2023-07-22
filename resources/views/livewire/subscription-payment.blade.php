@@ -14,7 +14,10 @@
         let token = @js($token);
         braintree.dropin.create({
             authorization: token,
-            container: '#dropin-container'
+            container: '#dropin-container',
+            paypal: {
+                flow: 'vault'
+            }
         }, (error, dropinInstance) => {
             if (error) console.error(error);
             const form = document.getElementById('form');
@@ -25,7 +28,7 @@
                     document.getElementById('nonce').value = payload.nonce;
                     HTMLFormElement.prototype.submit.call(form);
                 })
-               
+
             });
         });
     </script>

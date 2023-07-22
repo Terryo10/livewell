@@ -46,32 +46,11 @@
                                 </a>
                             </div>
                         </div>
-                    </div>   
+                    </div>
                     @endforeach
-                   
-                   
+
+
                 </div>
-                <nav class="blog_list_pagination">
-                    <ul class="blog_list_nav_links">
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">6</a></li>
-                        <li><a href="#">
-                                <span>.</span>
-                                <span>.</span>
-                                <span>.</span>
-                                <span>.</span>
-                            </a></li>
-                        <li><a href="#">9</a></li>
-                    </ul>
-                    <ul class="blog_list_nav_links two">
-                        <li><a href="#" class="prev"><i class="fas fa-angle-double-left"></i> prev</a></li>
-                        <li><a href="#" class="next">next <i class="fas fa-angle-double-right"></i></a></li>
-                    </ul>
-                </nav>
             </div>
             <div class="blog_list_flex_item">
                 <aside class="blog_list_sidebar sidebar">
@@ -97,10 +76,10 @@
                                   {{$category->name}}
                                 </p>
                                 </a>
-                            </li> 
+                            </li>
                             @endforeach
-                            
-                            
+
+
                         </ul>
                     </section>
                 </aside>

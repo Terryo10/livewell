@@ -68,7 +68,11 @@ class PostController extends AdminController
         $show->field('image_path', __('Image'))->image();
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
-
+        $show->comments('Comments',function ($comments){
+           $comments->user()->name();
+              $comments->content();
+                $comments->created_at();
+        });
         return $show;
     }
 

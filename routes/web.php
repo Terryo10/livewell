@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $products = Products::latest()->take(5)->get();
+    $products = Products::latest()->take(6)->get();
     return view('welcome')
         ->with('products', $products);
 });
@@ -48,6 +48,8 @@ Route::get('shop', [ShopController::class, 'index']);
 
 Route::get('shop/product/{id}', [ShopController::class, 'product']);
 
+Route::get('shop/category/{id}', [ShopController::class, 'category']);
+
 Route::get('/paypal_visa', [CartController::class, 'visapay'])->middleware('auth');
 
 Route::get('/shipping_details', [CartController::class, 'shipping'])->middleware('auth');
@@ -63,3 +65,7 @@ Route::get('cart/delete', [CartController::class, 'deleteCartItem'])->middleware
 Route::post('cart/save', [CartController::class, 'savecartweb'])->name('savetocart')->middleware('auth');
 
 Route::post('/pay',[CartController::class, 'checkoutBraintree'])->name('pay.braintree')->middleware('auth');
+
+Route::get('/consultation', [\App\Http\Controllers\ConsultationController::class, 'index'])->middleware('auth');
+
+Route::post('/consultation/booking', [\App\Http\Controllers\ConsultationController::class, 'store'])->middleware('auth')->name('consultation.booking');

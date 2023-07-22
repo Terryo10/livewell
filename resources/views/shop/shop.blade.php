@@ -32,7 +32,7 @@
                             <h3 class="widget_title">Product Categories</h3>
                             <ul class="widget_catgories">
                                 @foreach ($category as $productCategory)
-                                    <li><a href="p">{{ $productCategory->name}}</a></li>
+                                    <li><a href="/category/{{$productCategory->id}}">{{ $productCategory->name}}</a></li>
                                 @endforeach
                             </ul>
                         </section>
@@ -73,4 +73,5 @@
             </div>
         </div>
     </section>
+
 @endsection

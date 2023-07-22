@@ -21,4 +21,9 @@ Route::group([
         $router->resource('sub-categories', SubCategoryController::class);
         $router->resource('products', ProductsController::class);
         $router->resource('product-images', ProductImagesController::class);
+        $router->resource('orders', OrdersController::class);
+        $router->resource('consultations', ConsultationController::class);
+        $router->resource('booking-fees', BookingFeeController::class);
+        $router->resource('booking-orders', BookingOrdersController::class);
+
 });

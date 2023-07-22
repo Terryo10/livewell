@@ -48,6 +48,10 @@
                         {{ __('Forgot Your Password?') }}
                     </a>
                     @endif
+
+                    <a class="btn btn-link" href="/register">
+                        {{ __('Create Account for free') }}
+                    </a>
                 </div>
             </form>
         </div>

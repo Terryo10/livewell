@@ -74,8 +74,7 @@ class CartController extends Controller
         if ($temporaryAddress == !null) {
 
             $total = $this->totalweb();
-            $gateway = $this->gateway();
-            $token = $gateway->ClientToken()->generate();
+            $token = $this->gateway()->ClientToken()->generate();
             return view('pay')
                 ->with('token', $token)
                 ->with('total', $total);

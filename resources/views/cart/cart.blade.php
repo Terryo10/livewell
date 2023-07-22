@@ -66,21 +66,20 @@
                                 <div class="col-md-4">
 
                                     <div class="uk-width-1-3@m">
-                                        @if (!empty($cart_items))
+                                        @if ($cart_items->count() > 0)
                                             <h3>Select Payment Method</h3>
                                         @else
                                             <h3>You have no Products in your basket</h3>
                                         @endif
                                         <ul class="uk-list uk-list-large uk-list-divider uk-margin-medium-top">
-
-                                            @if (!empty($cart_items))
+                                            @if ($cart_items->count() > 0)
                                                 <li>Total Price USD :$ {{ $total }}</li>
                                                 <li>
                                                     <a href="/paypal_visa">
-                                                        <div class="uk-width-1-1 uk-width-auto@s">
+                                                        <div>
                                                             <input type="submit"
                                                                 value="Checkout via PAYPAL | MASTERCARD | VISA"
-                                                                class="btn btn-dark">
+                                                                class="btn btn-success">
                                                         </div>
                                                     </a>
                                                 </li>

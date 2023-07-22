@@ -3,6 +3,10 @@
     <!--==========================-->
     <!--=        Banner         =-->
     <!--==========================-->
+    <br>
+    <br>
+    <br>
+    <br>
     <section class="banner_static">
         <div class="vigo_container_one">
             <div class="banner_static_flex">
@@ -37,8 +41,15 @@
                             expert guidance and support, you can take control of your health and unlock your full potential.
                             Experience true vitality and well-being – start your journey to functional health today.
                         </p>
+                        <br>
+                        <br>
                         <a href="/posts" class="btn_download">
                             Get Started
+                        </a>
+                        <br>
+                        <br>
+                        <a href="/consultation" class="btn_download">
+                            Book For A Consultation
                         </a>
                     </div>
                 </div>
@@ -57,21 +68,11 @@
         </div>
     </section>
 
-    {{-- <section class="megamenu-cookies">
-        <div class="remove">
-            <i class="material-icons">
-                clear
-            </i>
-        </div>
-        <p>This Website uses cookies to ensure you get the best experience in our website. We also use analytics software to
-            track data of visitors. See more info <a href="#">here</a></p>
-        <a class="agree" href="#">I agree</a>
-    </section> --}}
-
     <!--==========================-->
     <!--=        Banner         =-->
     <!--==========================-->
-    <section class="home_five_service">
+    <div class="hidden-mobile">
+    <section class="home_five_service hidden-md hidden-xs">
         <div class="vigo_container_one">
             <div class="home_five_single_service">
                 <div class="home_five_single_service_inner clearfix">
@@ -103,7 +104,7 @@
             </div>
         </div>
     </section>
-
+    </div>
     <div class="modal quickview-wrapper">
         <div class="quickview">
             <div class="container">
@@ -269,27 +270,8 @@
 
                             </p>
                         </a>
-                        {{-- </div>
-                    <div class="home5_offer_right">
-                        <span>$12</span>
-                        <img src="media/images/home6/offer-right.png" alt="">
-                    </div> --}}
                     </div>
-                    {{-- <div class="home5_offer_social">
-                    <span>Share Us-</span>
-                    <a href="#">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-medium-m"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-tumblr"></i>
-                    </a>
-                </div> --}}
+                </div>
                 </div>
             </div>
     </section>
@@ -447,32 +429,10 @@
                     <div class="call_to_action_right_two">
                         <a href="/posts" class="btn_four">Find Out More</a>
                     </div>
-                    {{-- <div class="home5_video_social">
-                        <span>SHARE US -</span>
-                        <a href="#">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-medium-m"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-tumblr"></i>
-                        </a>
-                    </div> --}}
+
+
                 </div>
-                {{-- <div class="youtube-wrapper home5_video_right">
-                    <div class="youtube-poster" data-bg-image="media/images/home6/video-5.png"></div>
-                    <iframe src="https://www.youtube.com/embed/pCo40Y6UpWg" allowfullscreen></iframe>
-                    <i class="material-icons play">
-                        play_arrow
-                    </i>
-                    <i class="material-icons pause">
-                        pause
-                    </i>
-                </div> --}}
+
             </div>
         </div>
     </section>
@@ -490,7 +450,7 @@
                         <div class="sn_related_product">
                             <div class="sn_pd_img">
                                 <a href="/shop/product/{{$product->id}}">
-                                    <img src="{{ asset('gymer/media/images/banner-two/related-pd-one.png') }}"
+                                    <img src="/upload/{{$product->image}}"
                                         alt="">
                                 </a>
                             </div>

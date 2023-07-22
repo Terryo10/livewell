@@ -2,20 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\BlogCategories;
+use App\Models\BookingFee;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class BlogCategoryController extends AdminController
+class BookingFeeController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'BlogCategories';
+    protected $title = 'BookingFee';
 
     /**
      * Make a grid builder.
@@ -24,11 +24,10 @@ class BlogCategoryController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new BlogCategories());
+        $grid = new Grid(new BookingFee());
 
         $grid->column('id', __('Id'));
-        $grid->column('name', __('Name'));
-        $grid->column('image_path', __('Image path'))->image();
+        $grid->column('booking_fee', __('Booking fee'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -43,11 +42,10 @@ class BlogCategoryController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(BlogCategories::findOrFail($id));
+        $show = new Show(BookingFee::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('name', __('Name'));
-        $show->field('image_path', __('Image path'))->image();
+        $show->field('booking_fee', __('Booking fee'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -61,10 +59,10 @@ class BlogCategoryController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new BlogCategories());
+        $form = new Form(new BookingFee());
 
-        $form->text('name', __('Name'))->required();
-        $form->image('image_path', __('Image path'));
+        $form->decimal('booking_fee', __('Booking fee'));
+
         return $form;
     }
 }

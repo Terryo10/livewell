@@ -27,7 +27,7 @@
                         <div>
                             <img src="/upload/{{$product->image}}" alt="">
                         </div>
-                        
+
                     </div>
                     <div class="ingredient_slider_two">
 							<div>
@@ -36,19 +36,19 @@
 								</div>
 							</div>
 						</div>
-                    
+
                 </div>
                 <div class="ingredient_slider_detail">
                     <h4 class="product_title">{{$product->name}}</h4>
                     <p class="product_ratting woocommerce-product-rating">
-                        
-                        <span>(30 Reviews)</span>
-                        <a href="#reviews" class="write_scroll_review" data-moveto=".review_nav">
-                            <span class="write_review">
-                                <i class="fas fa-pencil-alt"></i>
-                                Write a review
-                            </span>
-                        </a>
+
+{{--                        <span>(30 Reviews)</span>--}}
+{{--                        <a href="#reviews" class="write_scroll_review" data-moveto=".review_nav">--}}
+{{--                            <span class="write_review">--}}
+{{--                                <i class="fas fa-pencil-alt"></i>--}}
+{{--                                Write a review--}}
+{{--                            </span>--}}
+{{--                        </a>--}}
                     </p>
 
                     <div class="product_desc woocommerce-product-details__short-description">
@@ -57,7 +57,7 @@
                         </p>
                     </div>
 
-                   
+
 
                     <div class="product_price">
                         <p class={{$product->stock > 0 ?'in-stock' : "out-stock"}}>{{$product->stock > 0 ? 'IN STOCK' : 'OUT OF STOCK'}}</p>
@@ -110,10 +110,10 @@
                             <li>
                                 <a class="active" data-toggle="tab" href="#description" role="tab">DESCRIPTION</a>
                             </li>
-                
-                            <li>
-                                <a class="review_nav" data-toggle="tab" href="#reviews" role="tab">REVIEWS</a>
-                            </li>
+
+{{--                            <li>--}}
+{{--                                <a class="review_nav" data-toggle="tab" href="#reviews" role="tab">REVIEWS</a>--}}
+{{--                            </li>--}}
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="description" role="tabpanel">
@@ -121,7 +121,7 @@
                                  {{$product->description}}
                                 </p>
                             </div>
-                            
+
                             <div class="tab-pane fade" id="reviews" role="tabpanel">
                                 <div class="review_detail">
                                     <div class="review_comments">
@@ -241,4 +241,7 @@
             </div>
         </div>
     </section>
+    <br>
+    <br>
+    <br>
 @endsection
