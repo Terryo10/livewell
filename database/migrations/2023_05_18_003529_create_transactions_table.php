@@ -19,12 +19,12 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->string('reference');
             $table->string('status');
             $table->string('amount');
             $table->string('currency');
             $table->string('payment_method');
-            $table->string('status_url');
+            $table->string('poll_url');
+            $table->boolean('is_used')->default(false);
             $table->timestamps();
         });
     }

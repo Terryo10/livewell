@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+    protected $fillable = [
+    'is_used'
+    ];
     use HasFactory;
 }

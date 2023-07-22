@@ -41,7 +41,8 @@
                                 {{ __('Your subscription is still active') }}
                             </div>
                             <a class="btn-btn-primary">
-                                Your subscription expires on {{ \Carbon\Carbon::parse(Auth::user()->subscribed->expires_at)->diffForHumans() }}
+                                Your subscription expires on
+                                {{ \Carbon\Carbon::parse(Auth::user()->subscribed->expires_at)->diffForHumans() }}
                             </a>
                         @endif
                     </div>
@@ -54,6 +55,11 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     @if ($orders->count() == 0)
+                        <div class="container">
+                            <a
+                                href="https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPW11ZnV0ZWxmJTQweWFob28uY28udWsmYW1vdW50PTEwLjAwJnJlZmVyZW5jZT0mbD0x"><button
+                                    class="btn btn-warning">Paynow</button></a>
+                        </div>
                         <div class="alert alert-success">
                             <p>You have no orders yet <a href="shop">click here to start shopping</a></p>
                         </div>
@@ -68,8 +74,8 @@
                                 @foreach ($items->order_items as $lols)
                                     <div class="uk-width-auto">
                                         <img class="uk-comment-avatar uk-border-circle"
-                                            src="/upload/{{ $lols->product['image'] }}" width="50"
-                                            height="50" alt="Product Image">
+                                            src="/upload/{{ $lols->product['image'] }}" width="50" height="50"
+                                            alt="Product Image">
                                     </div>
                                     <br>
                                     <div>
@@ -87,42 +93,43 @@
         </div>
         <div class="container">
             <div class="row justify-content-center">
-            @foreach ($booking as $items)
-               <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header"> Your booking ID is : {{ $items->id }}
+                @foreach ($booking as $items)
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header"> Your booking ID is : {{ $items->id }}
+                            </div>
+
+                            <div class="card-body">
+                                <p>
+                                    Your Booking Order Transaction Reference is
+                                    ({{ $items->transaction_ref }})
+                                    <br>
+                                </p>
+                                <p>
+                                    Consultation Date is :
+                                    ( {{ $items->consultation->date }} ) <br>
+
+                                </p>
+                                <p>
+                                    Consultation Status is :
+                                    ( {{ $items->consultation->status }} ) <br>
+                                </p>
+                                <p>
+                                    Phone number assigned to this consultation is :
+                                    ( {{ $items->consultation->phone }} ) <br>
+                                </p>
+                                <p>
+                                    There was an email sent to you with the consultation details, please check your email
+                                    ( {{ Auth::user()->email }} ) for more info please chat to us in our live chat<br>
+
+                                </p>
+                            </div>
                         </div>
-
-                        <div class="card-body">
-                            <p>
-                                Your Booking Order Transaction Reference is
-                                ({{ $items->transaction_ref }}) <br>
-                            </p>
-                            <p>
-                                Consultation Date is :
-                                ( {{ $items->consultation->date }} ) <br>
-
-                            </p>
-                            <p>
-                                Consultation Status is :
-                                ( {{ $items->consultation->status }} ) <br>
-                            </p>
-                            <p>
-                                Phone number assigned to this consultation is :
-                                ( {{ $items->consultation->phone }} ) <br>
-                            </p>
-                            <p>
-                                There was an email sent to you with the consultation details, please check your email
-                                ( {{ Auth::user()->email }} ) for more info please chat to us in our live chat<br>
-
-                            </p>
-                        </div>
+                        <br>
                     </div>
-                   <br>
-                </div>
 
-                <br>
-            @endforeach
+                    <br>
+                @endforeach
             </div>
         </div>
         <br>

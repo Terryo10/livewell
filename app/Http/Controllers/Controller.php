@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Paynow\Payments\Paynow;
 
 class Controller extends BaseController
 {
@@ -17,6 +18,15 @@ class Controller extends BaseController
         $clientToken = $this->gateway()->clientToken()->generate();
 
         return $clientToken;
+    }
+    public function paynow(){
+        return new Paynow(
+            env('PAYNOW_INTERGRATION_ID'),
+            env('PAYNOW_INTERGRATION_KEY'),
+            // The return url can be set at later stages. You might want to do this if you want to pass data to the return url (like the reference of the transaction)
+            'http://localhost:8000/return?gateway=paynow',
+            'http://localhost:8000/return?gateway=paynow',
+        );
     }
 
     public function gateway()
