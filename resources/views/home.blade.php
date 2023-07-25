@@ -55,11 +55,6 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     @if ($orders->count() == 0)
-                        <div class="container">
-                            <a
-                                href="https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPW11ZnV0ZWxmJTQweWFob28uY28udWsmYW1vdW50PTEwLjAwJnJlZmVyZW5jZT0mbD0x"><button
-                                    class="btn btn-warning">Paynow</button></a>
-                        </div>
                         <div class="alert alert-success">
                             <p>You have no orders yet <a href="shop">click here to start shopping</a></p>
                         </div>

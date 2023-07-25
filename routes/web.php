@@ -42,7 +42,7 @@ Route::get('getBraintreeToken', [PaymentsController::class, 'getBraintreeToken']
 
 Route::post('subscription-checkout', [PaymentsController::class, 'makePayment'])->name('payment.make');
 
-Route::get('confirm-payment', [PaymentsController::class, 'checkPaynowConfirmation']);
+Route::get('confirm-payment/{id}/{type}/{request}', [PaymentsController::class, 'checkPaynowConfirmation']);
 
 Route::get('payment-success', [PaymentsController::class, 'paymentSuccess']);
 
@@ -53,6 +53,8 @@ Route::get('shop/product/{id}', [ShopController::class, 'product']);
 Route::get('shop/category/{id}', [ShopController::class, 'category']);
 
 Route::get('/paypal_visa', [CartController::class, 'visapay'])->middleware('auth');
+
+Route::post('/paynow_visa', [CartController::class, 'visapay'])->middleware('auth');
 
 Route::get('/shipping_details', [CartController::class, 'shipping'])->middleware('auth');
 
@@ -66,7 +68,7 @@ Route::get('cart/delete', [CartController::class, 'deleteCartItem'])->middleware
 
 Route::post('cart/save', [CartController::class, 'savecartweb'])->name('savetocart')->middleware('auth');
 
-Route::post('/pay',[CartController::class, 'checkoutBraintree'])->name('pay.braintree')->middleware('auth');
+Route::post('/pay', [CartController::class, 'checkoutBraintree'])->name('pay.braintree')->middleware('auth');
 
 Route::get('/consultation', [\App\Http\Controllers\ConsultationController::class, 'index'])->middleware('auth');
 

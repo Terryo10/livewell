@@ -75,13 +75,19 @@
                                             @if ($cart_items->count() > 0)
                                                 <li>Total Price USD :$ {{ $total }}</li>
                                                 <li>
-                                                    <a href="/paypal_visa">
+                                                    <form method="post" action="/paynow_visa">
+                                                        @csrf
                                                         <div>
+                                                            <input type="hidden"
+                                                               name="total"
+                                                                value="{{ $total }}"
+                                                                class="btn btn-success"/>
                                                             <input type="submit"
                                                                 value="Checkout via PAYPAL | MASTERCARD | VISA"
                                                                 class="btn btn-success">
                                                         </div>
-                                                    </a>
+
+                                                    </form>
                                                 </li>
                                                 <br>
                                             @else

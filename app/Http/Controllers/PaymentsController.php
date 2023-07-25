@@ -11,9 +11,10 @@ use Dotenv\Util\Str;
 
 class PaymentsController extends Controller
 {
-    private function generateRandomId(): string{
-     $random_data = "1234567890jefhbeyeaihiuhneiunwurbhihnoahuhrihw";
-     return uniqid($random_data);
+    private function generateRandomId(): string
+    {
+        $random_data = "1234567890jefhbeyeaihiuhneiunwurbhihnoahuhrihw";
+        return uniqid($random_data);
     }
 
     public function getBraintreeToken()
@@ -23,30 +24,11 @@ class PaymentsController extends Controller
 
     public function checkoutSubscription(Request $request)
     {
-
     }
-    public function checkPaynowConfirmation(){
+    public function checkPaynowConfirmation($id, $type, $request)
+    {
 
-        $transaction = Transaction::where('user_id', Auth::user()->id)->get()->first();
-        $status = $this->paynow()->pollTransaction($transaction->poll_url);
-        if($status->paid()){
-        if(!$transaction->is_used){
-            $subscription = Auth::user()->subscribed;
-            if($subscription->expires_at > Carbon::now()){
-                //add 30 days on top of user subscription
-                $subscription->expires_at = $subscription->expires_at->addDays(30);
-            }else{
-                 //add 30 days only
-                 $subscription->expires_at =  Carbon::now()->addDays(30);
-            }
-            $subscription->update();
-            $transaction->update(['is_used'=> true]);
-            return redirect('payment-success')->with('message', 'Payment Success');
-        }
-
-        }else{
-           return redirect('home')->with('message', 'Payment was not made!!!!');
-        }
+        return $this->checkPollUrlAndUpdateDatabase($type, $request, $id);
     }
 
     public function makePayment(Request $request)
@@ -54,11 +36,18 @@ class PaymentsController extends Controller
 
         $price = Pricing::all();
         $user = Auth::user();
+        $id_next = Transaction::latest()->first();
+        $id_next_add = "";
+        if ($id_next->id ?? null !== null) {
+            $id_next_add = $id_next->id++; //l incremented this value for case we do not created any transaction so we make second id be the next id
+        } else {
+            $id_next_add = 1;
+        }
         try {
             $uuid = $this->generateRandomId();
-            $payment = $this->paynow()->createPayment("$uuid", $user->email);
+            $payment = $this->paynow($id_next_add, "subscription", $request)->createPayment("$uuid", $user->email);
             $payment->add("subscription $user->name", $price[0]->price);
-            $response = $this->paynow()->send($payment);
+            $response = $this->paynow($id_next_add, "subscription", $request)->send($payment);
             if ($response->success) {
                 $link = $response->redirectUrl();
                 $tran = new Transaction();
@@ -70,20 +59,19 @@ class PaymentsController extends Controller
                 $tran->user_id = $user->id;
                 $tran->subscription_id = $user->subscribed->id;
                 $tran->save();
-               return redirect()->to($link);
-              } else {
+                return redirect()->to($link);
+            } else {
 
-                return redirect()->back()->WithErrors(['message'=>'Oops something went wrong while trying to proccess your transaction please try again']);
-              }
-
+                return redirect()->back()->WithErrors(['message' => 'Oops something went wrong while trying to proccess your transaction please try again']);
+            }
         } catch (\Throwable $th) {
             $th->getMessage();
             return redirect()->back()->with('message', $th->getMessage());
         }
-
     }
 
-    public function paymentSuccess(){
+    public function paymentSuccess()
+    {
         return view('payments.paymentSuccess');
     }
 }

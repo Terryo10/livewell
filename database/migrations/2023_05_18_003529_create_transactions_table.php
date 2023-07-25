@@ -22,8 +22,9 @@ return new class extends Migration
             $table->string('status');
             $table->string('amount');
             $table->string('currency');
+            $table->string('type')->nullable();
             $table->string('payment_method');
-            $table->string('poll_url');
+            $table->string('poll_url')->nullable();
             $table->boolean('is_used')->default(false);
             $table->timestamps();
         });

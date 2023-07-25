@@ -64,16 +64,10 @@
                 <p>Our Consultation booking fee is USD ${{$total}} or Equivalent</p>
             </div>
 
-            <div class="bt-drop-in-wrapper">
-                <div id="bt-dropin"></div>
-            </div>
             </section>
-            <div class="shortlists">
-                <input id="nonce" name="payment_method_nonce" type="hidden" /
-            </div>
             <br>
             <p class="sign-up-single-button">
-                <input type="submit" value="  {{ __('Book Now') }}">
+                <input type="submit" value="  {{ __('Book Now With VISA CARD ') }}">
 
             </p>
 
@@ -102,49 +96,5 @@
         </div>
     </section>
 
-    <script src="https://js.braintreegateway.com/web/dropin/1.38.1/js/dropin.min.js"></script>
-    <script>
-        var form = document.querySelector('#payment-form');
-        var client_token = "{{ $token }}";
 
-        braintree.dropin.create({
-            authorization: client_token,
-            selector: '#bt-dropin',
-            venmo: {
-                allowNewBrowserTab: false
-            },
-            paypal: {
-                flow: 'vault',
-            },
-            applePay: {
-                displayName: 'LiveWell Consultation Booking',
-                paymentRequest: {
-                    total: {
-                        label: 'LiveWell Consultation Booking',
-                        amount: {{$total}},
-                        currencyCode: 'USD'
-                    }
-                }
-            },
-
-        }, function(createErr, instance) {
-            if (createErr) {
-                console.log('Create Error', createErr);
-                return;
-            }
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                instance.requestPaymentMethod(function(err, payload) {
-                    if (err) {
-                        console.log('Request Payment Method Error', err);
-                        return;
-                    }
-                    // Add the nonce to the form and submit
-                    document.querySelector('#nonce').value = payload.nonce;
-                    form.submit();
-                });
-            });
-        });
-    </script>
 @endsection

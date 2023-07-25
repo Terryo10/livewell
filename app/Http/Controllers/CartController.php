@@ -66,7 +66,7 @@ class CartController extends Controller
         }
     }
 
-    public function visapay()
+    public function visapay(Request $request)
     {
         $temporaryAddress = auth::user()->temporaryAddress;
 
@@ -74,10 +74,9 @@ class CartController extends Controller
         if ($temporaryAddress == !null) {
 
             $total = $this->totalweb();
-            $token = $this->gateway()->ClientToken()->generate();
-            return view('pay')
-                ->with('token', $token)
-                ->with('total', $total);
+            return $this->createPaynowPayment($total, "checkout", $request);
+            // return view('pay')
+            //     ->with('total', $total);
         } else {
             return redirect('/shipping_details')->with('error', 'You dont have a shipping addresss');
         }
@@ -247,6 +246,5 @@ class CartController extends Controller
                 'message' => 'Failed to delete',
             ]);
         }
-
     }
 }
