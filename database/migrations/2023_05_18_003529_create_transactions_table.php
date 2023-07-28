@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->string('status');
+            $table->string('status')->default("pending");
             $table->string('amount');
             $table->string('currency');
             $table->string('type')->nullable();

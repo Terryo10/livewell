@@ -118,6 +118,14 @@
                                     ( {{ Auth::user()->email }} ) for more info please chat to us in our live chat<br>
 
                                 </p>
+                                @if($items->transaction->status == "pending")
+
+                                <p>You booking is not yet paid please pay now<p>
+                                @elseif($items->transaction->status == "paid")
+                                    <p>You booking was success full<p>
+                                @else
+                                    <p>Please check your payment status for your booking to procced<p>
+                                @endif
                             </div>
                         </div>
                         <br>

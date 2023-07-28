@@ -42,7 +42,7 @@ Route::get('getBraintreeToken', [PaymentsController::class, 'getBraintreeToken']
 
 Route::post('subscription-checkout', [PaymentsController::class, 'makePayment'])->name('payment.make');
 
-Route::get('confirm-payment/{id}/{type}/{request}', [PaymentsController::class, 'checkPaynowConfirmation']);
+Route::get('confirm-payment/{id}', [PaymentsController::class, 'checkPaynowConfirmation']);
 
 Route::get('payment-success', [PaymentsController::class, 'paymentSuccess']);
 

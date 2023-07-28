@@ -19,6 +19,11 @@ return new class extends Migration
                     ->on('users')->onDelete('cascade');
             $table->double('booking_fee');
             $table->string('transaction_ref');
+
+            $table->unsignedBigInteger('transaction_id');
+            $table->foreign('transaction_id')->references('id')
+                ->on('transactions')->onDelete('cascade');
+
             $table->unsignedBigInteger('consultation_id');
             $table->foreign('consultation_id')
                     ->references('id')

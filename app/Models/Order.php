@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    protected $fillable = ['poll_url'];
     use HasFactory;
 
     public function order_items(){

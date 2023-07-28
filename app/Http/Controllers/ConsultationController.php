@@ -25,7 +25,25 @@ class ConsultationController extends Controller
             'date' => 'required',
             'phone' => 'required',
         ]);
+        $consultation = new Consultation();
+        $consultation->user_id = auth()->user()->id;
+        $consultation->message = $request->message;
+        $consultation->date = $request->date;
+        $consultation->phone = $request->phone;
+        $consultation->save();
 
-        return  $this->createPaynowPayment("10", "consultation", $request);
+
+        //send email to authenticated user
+        $user = auth()->user();
+        $mailData = [
+            'title' => 'Consultation Booked',
+            'body' => 'Your consultation has been booked successfully. We will get back to you shortly. any questions? contact us at +27 72 154 7121 '
+        ];
+        Mail::to($user->email)->send(new ConsultationBooked($mailData));
+
+        $bookingFees = BookingFee::all();
+        $bookingFee = $bookingFees[0]->booking_fee;
+
+        return  $this->createPaynowPayment($bookingFee, "consultation", $consultation->id);
     }
 }

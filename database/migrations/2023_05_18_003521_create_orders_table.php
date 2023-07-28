@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('paymentStatus')->default('initiated');
-            $table->string('transaction_ref');
             $table->unsignedBigInteger('delivery_id');
             $table->string('status');
             $table->unsignedBigInteger('user_id');
+            $table->string('poll_url')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

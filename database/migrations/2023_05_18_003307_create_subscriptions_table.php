@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('transaction_id')->nullable();
+            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });

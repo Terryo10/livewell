@@ -21,4 +21,8 @@ class BookingOrders extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function transaction(){
+        return $this->belongsTo(Transaction::class, 'transaction_id');
+    }
+
 }

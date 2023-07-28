@@ -74,9 +74,52 @@ class CartController extends Controller
         if ($temporaryAddress == !null) {
 
             $total = $this->totalweb();
-            return $this->createPaynowPayment($total, "checkout", $request);
-            // return view('pay')
-            //     ->with('total', $total);
+            $cart = Auth::user()->cart;
+            // dd($transaction);
+            $temporaryAddress = Auth::user()->temporaryAddress;
+            $delivery = new Deliveries();
+            $delivery->user_id = Auth::id();
+            $delivery->address = $temporaryAddress->address;
+            $delivery->company = $temporaryAddress->company;
+            $delivery->phone = $temporaryAddress->phone;
+            $delivery->firstname = $temporaryAddress->firstname;
+            $delivery->lastname = $temporaryAddress->lastname;
+            $delivery->city = $temporaryAddress->city;
+            $delivery->state = $temporaryAddress->state;
+            $delivery->transaction_ref = '';
+            $delivery->country = $temporaryAddress->country;
+            $delivery->save();
+
+            //begin orders
+            $order = new Order();
+            $order->user_id = Auth::id();
+            $order->delivery_id = $delivery->id;
+            $order->paymentStatus = "pending";
+            $order->status = 'ordered';
+            $order->save();
+
+            $orderSaved = $order;
+            $order_items = $cart->cart_items;
+            foreach ($order_items as $item) {
+                $order_item = new OrderItems();
+                $order_item->quantity = $item->quantity;
+                $order_item->status = 'ordered';
+                $order_item->price = $item->product['price'];
+                $order_item->product_id = $item->product_id;
+                $order_item->orders_id = $orderSaved->id;
+                $order_item->save();
+            }
+
+            foreach ($order_items as $item) {
+                $productOriginalQuantity = $item->product->quantity;
+                //Subtract quantity
+                $product = Products::findOrFail($item->product->id);
+                $product->update([
+                    'stock' => $productOriginalQuantity - $item->quantity,
+                ]);
+            }
+            $cart->delete();
+            return $this->createPaynowPayment($total, "checkout", $order->id);
         } else {
             return redirect('/shipping_details')->with('error', 'You dont have a shipping addresss');
         }
