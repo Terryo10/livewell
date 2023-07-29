@@ -117,11 +117,11 @@ class CartController extends Controller
 
             foreach ($order_items as $item) {
                 //Subtract quantity
-                $product = Products::findOrFail($item->product->id);
-                $productOriginalQuantity = $product->quantity;
-
+                $product = Products::where('id',$item->product->id)->first();
+                $productOriginalQuantity = $product->stock;
+                 dd($productOriginalQuantity);//we were using quantity instead stock field inside the database
                 $product->update([
-                    'stock' => $productOriginalQuantity - $item->quantity,
+                    'stock' => ($productOriginalQuantity - $item->quantity),
                 ]);
             }
             $cart->delete();
