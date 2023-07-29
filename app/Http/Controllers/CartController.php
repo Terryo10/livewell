@@ -116,9 +116,10 @@ class CartController extends Controller
             }
 
             foreach ($order_items as $item) {
-                $productOriginalQuantity = $item->product->quantity;
                 //Subtract quantity
                 $product = Products::findOrFail($item->product->id);
+                $productOriginalQuantity = $product->quantity;
+
                 $product->update([
                     'stock' => $productOriginalQuantity - $item->quantity,
                 ]);
