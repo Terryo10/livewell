@@ -68,6 +68,10 @@ class CartController extends Controller
 
     public function visapay(Request $request)
     {
+        if($request->tran_id !== null){
+            return $this->createPaynowPayment($request->total, "payagain", $request->tran_id);
+
+        }else{
         $temporaryAddress = auth::user()->temporaryAddress;
 
 
@@ -96,6 +100,7 @@ class CartController extends Controller
             $order->delivery_id = $delivery->id;
             $order->paymentStatus = "pending";
             $order->status = 'ordered';
+            $order->transaction_id = 0;
             $order->save();
 
             $orderSaved = $order;
@@ -123,7 +128,7 @@ class CartController extends Controller
         } else {
             return redirect('/shipping_details')->with('error', 'You dont have a shipping addresss');
         }
-
+    }
         //check if user has a temporary address
         //token pass
         // pass price
@@ -184,6 +189,7 @@ class CartController extends Controller
             $order->transaction_ref = $transaction->id;
             $order->paymentStatus = $transaction->status;
             $order->status = 'ordered';
+            $order->transaction_id = $transaction->id;
             $order->save();
 
             $orderSaved = $order;

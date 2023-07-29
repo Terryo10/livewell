@@ -85,15 +85,16 @@
                                         <li class="cart">
                                             <i class="fas fa-shopping-basket"></i>
                                             <div class="cart_detail">
-                                                @foreach ($cartItemsGlobal as $cartItems)
+                                                @foreach ($cartItemsGlobal as $cartItem)
+
                                                     <div class="single_cart">
                                                         <div class="cart_left">
-                                                            <img src="{{ asset('gymer/media/images/banner-two/cart-one.png') }}"
+                                                            <img src="/upload/{{ $cartItem->product->image }}"
                                                                 alt="">
                                                         </div>
                                                         <div class="cart_right">
-                                                            <h3>Vaxin Regular Big Name</h3>
-                                                            <p>$66 <sup>USD</sup></p>
+                                                            <h3>{{ $cartItem->product->name }} x {{ $cartItem->quantity }}</h3>
+                                                            <p>${{ $cartItem->product->price }}<sup>USD</sup></p>
                                                         </div>
                                                     </div>
                                                 @endforeach
@@ -177,6 +178,10 @@
                                         @else
                                             <li>
                                                 <a href="/home">My Account</a>
+
+                                            </li>
+                                            <li>
+                                                <a href="/cart">Your Cart</a>
 
                                             </li>
                                             <li>

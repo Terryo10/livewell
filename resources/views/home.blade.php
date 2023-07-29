@@ -61,23 +61,87 @@
                     @endif
                     @foreach ($orders as $items)
                         <div class="card">
-                            <div class="card-header">Order id : {{ $items->id }} & Order Transaction Ref
-                                ({{ $items->transaction_ref }})
+                            <div class="card-header">Order id : {{ $items->id }}
+                                {{-- ({{ $items->transaction_ref }}) --}}
                             </div>
 
                             <div class="card-body">
-                                @foreach ($items->order_items as $lols)
-                                    <div class="uk-width-auto">
-                                        <img class="uk-comment-avatar uk-border-circle"
-                                            src="/upload/{{ $lols->product['image'] }}" width="50" height="50"
-                                            alt="Product Image">
-                                    </div>
-                                    <br>
-                                    <div>
-                                        <p> {{ $lols->product['name'] }} X{{ $lols->quantity }} For
-                                            ${{ $lols->product->price }}</p>
-                                    </div>
-                                @endforeach
+                                @if ($items->order_transaction)
+                                    @if ($items->order_transaction->status == 'paid')
+                                        @foreach ($items->order_items as $lols)
+                                            <div class="uk-width-auto">
+                                                <img class="uk-comment-avatar uk-border-circle"
+                                                    src="/upload/{{ $lols->product['image'] }}" width="50"
+                                                    height="50" alt="Product Image">
+                                            </div>
+                                            <br>
+                                            <div class="col-md-6">
+                                                <p> {{ $lols->product['name'] }} X{{ $lols->quantity }} For
+                                                    ${{ $lols->product->price }}</p>
+
+                                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                                    Order Paid
+                                                </button>
+                                                <a href="/confirm-payment/{{ $lols->id }}">
+                                                    <button type="submit" class="btn btn-warning btn-lg btn-block">
+                                                        ReCheck Order Status
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        @foreach ($items->order_items as $lols)
+                                            <div class="uk-width-auto">
+                                                <img class="uk-comment-avatar uk-border-circle"
+                                                    src="/upload/{{ $lols->product['image'] }}" width="50"
+                                                    height="50" alt="Product Image">
+                                            </div>
+                                            <br>
+                                            <div class="col-md-6">
+                                                <p> {{ $lols->product['name'] }} X{{ $lols->quantity }} For
+                                                    ${{ $lols->product->price }}</p>
+                                                <form method="post" action="/paynow_visa">
+                                                    @csrf
+
+                                                    <input type="hidden" name="total" value="{{ $lols->quantity * $lols->product->price }}"
+                                                        class="btn btn-success" />
+                                                    <input type="hidden" name="tran_id" value="{{ $items->order_transaction->id }}"
+                                                        class="btn btn-warning" />
+                                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                                        Order Not Paid Pay Now
+                                                    </button>
+                                                </form>
+                                                <a href="/confirm-payment/{{ $lols->id }}">
+                                                    <button type="submit" class="btn btn-warning btn-lg btn-block">
+                                                        ReCheck Order Status
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                @else
+                                    @foreach ($items->order_items as $lols)
+                                        <div class="uk-width-auto">
+                                            <img class="uk-comment-avatar uk-border-circle"
+                                                src="/upload/{{ $lols->product['image'] }}" width="50" height="50"
+                                                alt="Product Image">
+                                        </div>
+                                        <br>
+                                        <div class="col-md-6">
+                                            <p> {{ $lols->product['name'] }} X{{ $lols->quantity }} For
+                                                ${{ $lols->product->price }}</p>
+
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                                Order Transaction Not Linked
+                                            </button>
+                                            <a href="/confirm-payment/{{ $lols->id }}">
+                                                <button type="submit" class="btn btn-warning btn-lg btn-block">
+                                                    ReCheck Order Status
+                                                </button>
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                         <br>
@@ -118,13 +182,15 @@
                                     ( {{ Auth::user()->email }} ) for more info please chat to us in our live chat<br>
 
                                 </p>
-                                @if($items->transaction->status == "pending")
-
-                                <p>You booking is not yet paid please pay now<p>
-                                @elseif($items->transaction->status == "paid")
-                                    <p>You booking was success full<p>
-                                @else
-                                    <p>Please check your payment status for your booking to procced<p>
+                                @if ($items->transaction->status == 'pending')
+                                    <p>You booking is not yet paid please pay now
+                                    <p>
+                                    @elseif($items->transaction->status == 'paid')
+                                    <p>You booking was success full
+                                    <p>
+                                    @else
+                                    <p>Please check your payment status for your booking to procced
+                                    <p>
                                 @endif
                             </div>
                         </div>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = ['poll_url'];
+    protected $fillable = ['poll_url','transaction_id'];
     use HasFactory;
 
     public function order_items(){
@@ -20,5 +20,8 @@ class Order extends Model
 
     public function delivery(){
         return $this->belongsTo(Deliveries::class, 'delivery_id');
+    }
+    public function order_transaction(){
+        return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 }

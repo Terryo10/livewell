@@ -25,10 +25,10 @@ class PaymentsController extends Controller
     public function checkoutSubscription(Request $request)
     {
     }
-    public function checkPaynowConfirmation($id, $type, $request)
+    public function checkPaynowConfirmation($id)
     {
 
-        return $this->checkPollUrlAndUpdateDatabase($type, $request, $id);
+        return $this->checkPollUrlAndUpdateDatabase($id);
     }
 
     public function makePayment(Request $request)

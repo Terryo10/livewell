@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('paymentStatus')->default('initiated');
             $table->unsignedBigInteger('delivery_id');
+            $table->unsignedBigInteger('transaction_id')->nullable();
             $table->string('status');
             $table->unsignedBigInteger('user_id');
             $table->string('poll_url')->nullable();
+            // $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

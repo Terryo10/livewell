@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \App\Models\Pricing;
+use \App\Models\Order;
+use App\Models\Transaction;
 
 class HomeController extends Controller
 {
@@ -30,9 +32,11 @@ class HomeController extends Controller
         $booking = $user->bookings()->get();
         $token = $this->getBraintreeToken();
         $orders = auth::user()->orders;
+        $order_transaction = Order::get();
         return view('home')
             ->with('user',$user,)
             ->with('token', $token)
+            ->with('order_transaction', $order_transaction)
             ->with('pricing',$pricing[0])
             ->with('orders', $orders)
             ->with('booking',$booking);

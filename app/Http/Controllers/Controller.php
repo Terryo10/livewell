@@ -98,7 +98,24 @@ class Controller extends BaseController
                 $newSubscription->user_id = Auth::user()->id;
                 $newSubscription->save();
             }
+           if($type == "payagain"){
+            $id = $typeId;
+            $uuid = $this->generateRandomId();
+            $payment = $this->paynow($id, $type)->createPayment("$uuid", "");
+            $payment->add("$type", $price);
+            $response = $this->paynow($id, $type)->send($payment);
 
+            if ($response->success) {
+                $update_tran = Transaction::find($id);
+                $update_tran->update(['poll_url'=>$response->pollUrl()]);
+
+                $link = $response->redirectUrl();
+                return redirect()->to($link);
+            } else {
+                return redirect()->back()->WithErrors(['message' => 'Oops something went wrong while trying to proccess your transaction please try again']);
+            }
+
+           }else{
             $user = Auth::user();
             $tran = new Transaction();
             $tran->amount = $price;
@@ -109,6 +126,7 @@ class Controller extends BaseController
             $tran->type = $type;
             $tran->subscription_id = $user->subscribed->id;
             $tran->save();
+            $transaction_update = Order::findorFail($typeId)->update(['transaction_id', $tran->id]);
 
             if($type == 'consultation'){
                 $booking_order = new BookingOrders();
@@ -118,6 +136,9 @@ class Controller extends BaseController
                 $booking_order->transaction_id = $tran->id;
                 $booking_order->consultation_id = $typeId;
                 $booking_order->save();
+            }elseif($type == "checkout"){
+                $transaction_update = Order::find($typeId)->update(['transaction_id', $tran->id]);
+                //update Order transaction_id to link it up with the transaction
             }
 
             $id = $tran->id;
@@ -127,11 +148,13 @@ class Controller extends BaseController
             $response = $this->paynow($id, $type)->send($payment);
 
             if ($response->success) {
+                $update_tran = Transaction::find($tran->id);
+                $update_tran->update(['poll_url'=>$response->pollUrl()]);
                 if($type =="consultation"){
                     $tran->update(['poll_url' => $response->pollUrl()]);//update poll_url before redirecting the user to redirect url
                 }elseif ($type == "checkout"){
                     $order = Order::find($typeId);
-                    $order->update(['poll_url'=>$response->pollUrl()]);
+                    $order->update(['poll_url'=>$response->pollUrl(),'transaction_id', $tran->id]);
                 }elseif ($type == "subscription"){
                     $tran->update(['poll_url' => $response->pollUrl()]);
                 }
@@ -141,6 +164,9 @@ class Controller extends BaseController
             } else {
                 return redirect()->back()->WithErrors(['message' => 'Oops something went wrong while trying to proccess your transaction please try again']);
             }
+
+
+        }
         } catch (\Throwable $th) {
             $th->getMessage();
             return redirect()->back()->with('message', $th->getMessage());
@@ -157,26 +183,19 @@ class Controller extends BaseController
         $type = $transaction->type;
 
         if ($response->paid()) {
+            $transaction->update(['is_used' => true, 'status' => $response->paid()?"paid":"pending"]);
             if ($transaction->type == 'transaction') {
-                $tran = new Transaction();
-                $tran->status = $response->paid();
-                $tran->amount = $price;
-                $tran->currency = "USD";
-                $tran->payment_method = "PAYNOW";
-                $tran->poll_url = $poll_url;
-                $tran->user_id = $user->id;
-                $tran->type = $transaction->type;
-                $tran->subscription_id = $user->subscribed->id;
-                $tran->save();
-                $transaction->update(['is_used' => true]);
+
             } else if ($transaction->type == 'consultation') {
 
             } else if ($type == 'checkout') {
               //update order because we have an order id
-
-                return redirect('/home')->with('success', 'Transaction Successful: The Transaction Reference is' . $transaction);
                 //end of checkout processing
             }
+
+            return redirect('/home')->with('success', 'Transaction Successful: The Transaction Reference is' . $transaction);
+        }else{
+            return redirect('/home')->with('message', 'Transaction was not paid please try again');
         }
     }
 }

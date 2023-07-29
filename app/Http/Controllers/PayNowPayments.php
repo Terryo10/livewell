@@ -11,6 +11,9 @@ use App\Models\BookingOrders;
 
 class PayNowPayments extends Controller
 {
+//order to have transaction id
+//if error check payment
+//if product not paid create a button to pay again
 
 
 }
