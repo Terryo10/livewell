@@ -119,7 +119,7 @@ class CartController extends Controller
                 //Subtract quantity
                 $product = Products::where('id',$item->product->id)->first();
                 $productOriginalQuantity = $product->stock;
-                 dd($productOriginalQuantity);//we were using quantity instead stock field inside the database
+                // dd($productOriginalQuantity);//we were using quantity instead stock field inside the database
                 $product->update([
                     'stock' => ($productOriginalQuantity - $item->quantity),
                 ]);
