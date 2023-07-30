@@ -126,7 +126,7 @@ class Controller extends BaseController
             $tran->type = $type;
             $tran->subscription_id = $user->subscribed->id;
             $tran->save();
-            $transaction_update = Order::findorFail($typeId)->update(['transaction_id', $tran->id]);
+            $transaction_update = Order::findorFail($typeId)->update(['transaction_id' => $tran->id]);
 
             if($type == 'consultation'){
                 $booking_order = new BookingOrders();
@@ -137,7 +137,7 @@ class Controller extends BaseController
                 $booking_order->consultation_id = $typeId;
                 $booking_order->save();
             }elseif($type == "checkout"){
-                $transaction_update = Order::find($typeId)->update(['transaction_id', $tran->id]);
+                $transaction_update = Order::find($typeId)->update(['transaction_id' => $tran->id]);
                 //update Order transaction_id to link it up with the transaction
             }
 
@@ -154,7 +154,7 @@ class Controller extends BaseController
                     $tran->update(['poll_url' => $response->pollUrl()]);//update poll_url before redirecting the user to redirect url
                 }elseif ($type == "checkout"){
                     $order = Order::find($typeId);
-                    $order->update(['poll_url'=>$response->pollUrl(),'transaction_id', $tran->id]);
+                    $order->update(['poll_url'=>$response->pollUrl(),'transaction_id'=> $tran->id]);
                 }elseif ($type == "subscription"){
                     $tran->update(['poll_url' => $response->pollUrl()]);
                 }
