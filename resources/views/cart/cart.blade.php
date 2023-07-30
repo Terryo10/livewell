@@ -166,14 +166,14 @@
                                         Edit Shipping Details
                                     </button>
                                 </form>
-                            @else
-                                <a href="/shop">
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                        Add Products
-                                    </button>
-                                </a>
-                            @endif
-                        @endif
+                                @endif
+                                @else
+                                    <a href="/shop">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                            Add Products
+                                        </button>
+                                    </a>
+                                @endif
                     </div>
                 </div>
             </div>
