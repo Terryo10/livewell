@@ -185,9 +185,9 @@ class Controller extends BaseController
         if ($response->paid()) {
             $transaction->update(['is_used' => true, 'status' => $response->paid()?"paid":"pending"]);
 
-            return redirect('/home')->with('success', 'Transaction Successful: The Transaction Reference is' . $transaction);
+            return redirect('/home')->with('status', 'Transaction Successful: The Transaction Reference is' . $transaction);
         }else{
-            return redirect('/home')->with('message', 'Transaction was not paid please try again');
+            return redirect('/home')->with('status', 'Transaction was not paid please try again');
         }
     }
 }

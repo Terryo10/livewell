@@ -68,21 +68,22 @@
                             <div class="card-body">
                                 @if ($items->order_transaction)
                                     @if ($items->order_transaction->status == 'paid')
-                                        @foreach ($items->order_items as $lols)
+                                        {{-- @foreach ($items->order_items as $lols) --}}
+                                        @foreach ($items->order_items as $key=>$thing)
                                             <div class="uk-width-auto">
                                                 <img class="uk-comment-avatar uk-border-circle"
-                                                    src="/upload/{{ $lols->product['image'] }}" width="50"
+                                                    src="/upload/{{ $thing->product['image'] }}" width="50"
                                                     height="50" alt="Product Image">
                                             </div>
                                             <br>
                                             <div class="col-md-6">
-                                                <p> {{ $lols->product['name'] }} X{{ $lols->quantity }} For
-                                                    ${{ $lols->product->price }}</p>
+                                                <p> {{ $thing->product['name'] }} X{{ $thing->quantity }} For
+                                                    ${{ $thing->product->price }}</p>
 
                                                 <button type="submit" class="btn btn-primary btn-lg btn-block">
                                                     Order Paid
                                                 </button>
-                                                <a href="/confirm-payment/{{ $lols->id }}">
+                                                <a href="/confirm-payment/{{ $items->order_transaction->id }}">
                                                     <button type="submit" class="btn btn-warning btn-lg btn-block">
                                                         ReCheck Order Status
                                                     </button>
@@ -90,20 +91,20 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        @foreach ($items->order_items as $lols)
+                                    @foreach ($items->order_items as $key=>$thing)
                                             <div class="uk-width-auto">
                                                 <img class="uk-comment-avatar uk-border-circle"
-                                                    src="/upload/{{ $lols->product['image'] }}" width="50"
+                                                    src="/upload/{{ $thing->product['image'] }}" width="50"
                                                     height="50" alt="Product Image">
                                             </div>
                                             <br>
                                             <div class="col-md-6">
-                                                <p> {{ $lols->product['name'] }} X{{ $lols->quantity }} For
-                                                    ${{ $lols->product->price }}</p>
+                                                <p> {{ $thing->product['name'] }} X{{ $thing->quantity }} For
+                                                    ${{ $thing->product->price }}</p>
                                                 <form method="post" action="/paynow_visa">
                                                     @csrf
 
-                                                    <input type="hidden" name="total" value="{{ $lols->quantity * $lols->product->price }}"
+                                                    <input type="hidden" name="total" value="{{ $thing->quantity * $thing->product->price }}"
                                                         class="btn btn-success" />
                                                     <input type="hidden" name="tran_id" value="{{ $items->order_transaction->id }}"
                                                         class="btn btn-warning" />
@@ -111,7 +112,7 @@
                                                         Order Not Paid Pay Now
                                                     </button>
                                                 </form>
-                                                <a href="/confirm-payment/{{ $lols->id }}">
+                                                <a href="/confirm-payment/{{ $items->order_transaction->id }}">
                                                     <button type="submit" class="btn btn-warning btn-lg btn-block">
                                                         ReCheck Order Status
                                                     </button>
@@ -120,8 +121,13 @@
                                         @endforeach
                                     @endif
                                 @else
+                                <div class="col-md-8">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                      This Order and Transaction Not Linked
+                                    </button>
+                                </div>
                                     @foreach ($items->order_items as $lols)
-                                        <div class="uk-width-auto">
+                                        {{-- <div class="uk-width-auto">
                                             <img class="uk-comment-avatar uk-border-circle"
                                                 src="/upload/{{ $lols->product['image'] }}" width="50" height="50"
                                                 alt="Product Image">
@@ -134,12 +140,12 @@
                                             <button type="submit" class="btn btn-primary btn-lg btn-block">
                                                 Order Transaction Not Linked
                                             </button>
-                                            <a href="/confirm-payment/{{ $lols->id }}">
+                                            <a href="/confirm-payment/{{ null }}">
                                                 <button type="submit" class="btn btn-warning btn-lg btn-block">
                                                     ReCheck Order Status
                                                 </button>
                                             </a>
-                                        </div>
+                                        </div> --}}
                                     @endforeach
                                 @endif
                             </div>
