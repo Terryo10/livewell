@@ -154,7 +154,7 @@ class Controller extends BaseController
                     $tran->update(['poll_url' => $response->pollUrl()]);//update poll_url before redirecting the user to redirect url
                 }elseif ($type == "checkout"){
                     $order = Order::find($typeId);
-                    $order->update(['poll_url'=>$response->pollUrl(),'transaction_id'=> $tran->id]);
+                    $order->update(['poll_url'=>$response->pollUrl(),'transaction_id' => $tran->id]);
                 }elseif ($type == "subscription"){
                     $tran->update(['poll_url' => $response->pollUrl()]);
                 }
