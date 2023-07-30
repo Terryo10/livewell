@@ -184,14 +184,6 @@ class Controller extends BaseController
 
         if ($response->paid()) {
             $transaction->update(['is_used' => true, 'status' => $response->paid()?"paid":"pending"]);
-            if ($transaction->type == 'transaction') {
-
-            } else if ($transaction->type == 'consultation') {
-
-            } else if ($type == 'checkout') {
-              //update order because we have an order id
-                //end of checkout processing
-            }
 
             return redirect('/home')->with('success', 'Transaction Successful: The Transaction Reference is' . $transaction);
         }else{
