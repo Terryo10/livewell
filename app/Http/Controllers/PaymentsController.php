@@ -36,7 +36,7 @@ class PaymentsController extends Controller
         $price = Pricing::all();
         $user = Auth::user();
         try {
-            $this->createPaynowPayment($price[0]->price, "subscription",$user->subscribed->id);
+            return $this->createPaynowPayment($price[0]->price, "subscription",$user->subscribed->id);
         } catch (\Throwable $th) {
             $th->getMessage();
             return redirect()->back()->with('message', $th->getMessage());
