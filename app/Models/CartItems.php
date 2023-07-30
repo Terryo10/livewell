@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CartItems extends Model
 {
+    protected $fillable = [
+        'quantity',
+    ];
+
     use HasFactory;
 
     public function product(){

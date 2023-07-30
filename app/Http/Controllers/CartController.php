@@ -68,68 +68,67 @@ class CartController extends Controller
 
     public function visapay(Request $request)
     {
-        if($request->tran_id !== null){
+        if ($request->tran_id !== null) {
             return $this->createPaynowPayment($request->total, "payagain", $request->tran_id);
-
-        }else{
-        $temporaryAddress = auth::user()->temporaryAddress;
-
-
-        if ($temporaryAddress == !null) {
-
-            $total = $this->totalweb();
-            $cart = Auth::user()->cart;
-            // dd($transaction);
-            $temporaryAddress = Auth::user()->temporaryAddress;
-            $delivery = new Deliveries();
-            $delivery->user_id = Auth::id();
-            $delivery->address = $temporaryAddress->address;
-            $delivery->company = $temporaryAddress->company;
-            $delivery->phone = $temporaryAddress->phone;
-            $delivery->firstname = $temporaryAddress->firstname;
-            $delivery->lastname = $temporaryAddress->lastname;
-            $delivery->city = $temporaryAddress->city;
-            $delivery->state = $temporaryAddress->state;
-            $delivery->transaction_ref = '';
-            $delivery->country = $temporaryAddress->country;
-            $delivery->save();
-
-            //begin orders
-            $order = new Order();
-            $order->user_id = Auth::id();
-            $order->delivery_id = $delivery->id;
-            $order->paymentStatus = "pending";
-            $order->status = 'ordered';
-            $order->transaction_id = 0;
-            $order->save();
-
-            $orderSaved = $order;
-            $order_items = $cart->cart_items;
-            foreach ($order_items as $item) {
-                $order_item = new OrderItems();
-                $order_item->quantity = $item->quantity;
-                $order_item->status = 'ordered';
-                $order_item->price = $item->product['price'];
-                $order_item->product_id = $item->product_id;
-                $order_item->orders_id = $orderSaved->id;
-                $order_item->save();
-            }
-
-            foreach ($order_items as $item) {
-                //Subtract quantity
-                $product = Products::where('id',$item->product->id)->first();
-                $productOriginalQuantity = $product->stock;
-                // dd($productOriginalQuantity);//we were using quantity instead stock field inside the database
-                $product->update([
-                    'stock' => ($productOriginalQuantity - $item->quantity),
-                ]);
-            }
-            $cart->delete();
-            return $this->createPaynowPayment($total, "checkout", $order->id);
         } else {
-            return redirect('/shipping_details')->with('error', 'You dont have a shipping addresss');
+            $temporaryAddress = auth::user()->temporaryAddress;
+
+
+            if ($temporaryAddress == !null) {
+
+                $total = $this->totalweb();
+                $cart = Auth::user()->cart;
+                // dd($transaction);
+                $temporaryAddress = Auth::user()->temporaryAddress;
+                $delivery = new Deliveries();
+                $delivery->user_id = Auth::id();
+                $delivery->address = $temporaryAddress->address;
+                $delivery->company = $temporaryAddress->company;
+                $delivery->phone = $temporaryAddress->phone;
+                $delivery->firstname = $temporaryAddress->firstname;
+                $delivery->lastname = $temporaryAddress->lastname;
+                $delivery->city = $temporaryAddress->city;
+                $delivery->state = $temporaryAddress->state;
+                $delivery->transaction_ref = '';
+                $delivery->country = $temporaryAddress->country;
+                $delivery->save();
+
+                //begin orders
+                $order = new Order();
+                $order->user_id = Auth::id();
+                $order->delivery_id = $delivery->id;
+                $order->paymentStatus = "pending";
+                $order->status = 'ordered';
+                $order->transaction_id = 0;
+                $order->save();
+
+                $orderSaved = $order;
+                $order_items = $cart->cart_items;
+                foreach ($order_items as $item) {
+                    $order_item = new OrderItems();
+                    $order_item->quantity = $item->quantity;
+                    $order_item->status = 'ordered';
+                    $order_item->price = $item->product['price'];
+                    $order_item->product_id = $item->product_id;
+                    $order_item->orders_id = $orderSaved->id;
+                    $order_item->save();
+                }
+
+                foreach ($order_items as $item) {
+                    //Subtract quantity
+                    $product = Products::where('id', $item->product->id)->first();
+                    $productOriginalQuantity = $product->stock;
+                    // dd($productOriginalQuantity);//we were using quantity instead stock field inside the database
+                    $product->update([
+                        'stock' => ($productOriginalQuantity - $item->quantity),
+                    ]);
+                }
+                $cart->delete();
+                return $this->createPaynowPayment($total, "checkout", $order->id);
+            } else {
+                return redirect('/shipping_details')->with('error', 'You dont have a shipping addresss');
+            }
         }
-    }
         //check if user has a temporary address
         //token pass
         // pass price
@@ -229,12 +228,15 @@ class CartController extends Controller
     public function saveCartWeb(Request $request)
     {
         $this->validate($request, [
-
             'product_id' => 'required',
             'quantity' => 'required|numeric|min:1'
-
-
         ]);
+        if($request->is_update !== null){
+            $cart_update = CartItems::where('product_id',$request->product_id)->first();
+            $cart_update->update(['quantity'=>$request->quantity]);
+
+            return redirect()->back()->with('message', "Product cart updated successfully");
+        }
         $user = Auth::user();
         if ($user->cart !== null) {
             $cart = cart::find($user->cart->id);

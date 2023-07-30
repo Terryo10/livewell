@@ -69,7 +69,7 @@
 
                                     <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                                         <!-- Quantity -->
-                                        <div class="d-flex mb-4" style="max-width: 300px">
+                                        {{-- <div class="d-flex mb-4" style="max-width: 300px">
                                             <button class="btn btn-primary px-3 me-2"
                                                 onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                                 <i class="fas fa-minus"></i>
@@ -91,7 +91,7 @@
                                                 onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                                 <i class="fas fa-plus"></i>
                                             </button>
-                                        </div>
+                                        </div> --}}
                                         <!-- Quantity -->
 
                                         <!-- Price -->
@@ -100,14 +100,15 @@
                                             <form action="{{route('savetocart')}}" class="product-cart" method="post">
                                                 @csrf
                                                     <div class="product-quantity quantity">
-                                                        <input id="Quantity" name="quantity" value="1" data-product-qty=""
+                                                        <input id="Quantity" name="quantity" value="{{$items->quantity}}" data-product-qty=""
                                                             class="cart__quantity-selector quantity-selector" type="text" min="1" max="{{$items->product->stock}}" >
                                                         <input value="-" class="qtyminus looking" type="button">
                                                         <input value="+" class="qtyplus looking" type="button">
                                                     </div>
                                                     <input type="hidden" name="product_id" value="{{$items->product->id}}">
+                                                    <input type="hidden" name="is_update" value="{{$items->product->id}}">
                                                     <div class="ingredient_slider_btn">
-                                                        <button type="submit" class="single_add_to_cart_button">
+                                                        <button type="submit" class="single_add_to_cart_button" style="margin-top: 10px;">
                                                             <i class="fas fa-shopping-cart"></i>
                                                             Update Quantity
                                                         </button>
