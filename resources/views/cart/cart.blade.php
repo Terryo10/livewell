@@ -52,13 +52,13 @@
                                         <p>Size: M</p>
                                         <form action="/cart/delete" method="get">
                                             @csrf
-                                            <input class="form-control" type="hidden"
-                                                value="{{ $items->id }}" name="cart_item_id">
-                                        <button type="submit" class="btn btn-primary btn-sm me-1 mb-2"
-                                            data-mdb-toggle="tooltip" aria-label="Remove item"
-                                            data-mdb-original-title="Remove item">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                            <input class="form-control" type="hidden" value="{{ $items->id }}"
+                                                name="cart_item_id">
+                                            <button type="submit" class="btn btn-primary btn-sm me-1 mb-2"
+                                                data-mdb-toggle="tooltip" aria-label="Remove item"
+                                                data-mdb-original-title="Remove item">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </form>
                                         <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
                                             aria-label="Move to the wish list" data-mdb-original-title="Move to the wish list">
@@ -76,8 +76,8 @@
                                             </button>
 
                                             <div class="form-outline">
-                                                <input id="form1" min="0" name="quantity" value="{{ $items->quantity }}"
-                                                    type="number" class="form-control active">
+                                                <input id="form1" min="0" name="quantity" max="{{$items->product->stock}}"
+                                                    value="{{ $items->quantity }}" type="number" class="form-control active">
                                                 <label class="form-label" for="form1"
                                                     style="margin-left: 0px;">Quantity</label>
                                                 <div class="form-notch">
@@ -97,6 +97,26 @@
                                         <!-- Price -->
                                         <p class="text-start text-md-center">
                                             <strong>$ {{ $items->product->price }} </strong>
+                                            <form action="{{route('savetocart')}}" class="product-cart" method="post">
+                                                @csrf
+                                                    <div class="product-quantity quantity">
+                                                        <input id="Quantity" name="quantity" value="1" data-product-qty=""
+                                                            class="cart__quantity-selector quantity-selector" type="text" min="1" max="{{$items->product->stock}}" >
+                                                        <input value="-" class="qtyminus looking" type="button">
+                                                        <input value="+" class="qtyplus looking" type="button">
+                                                    </div>
+                                                    <input type="hidden" name="product_id" value="{{$items->product->id}}">
+                                                    <div class="ingredient_slider_btn">
+                                                        <button type="submit" class="single_add_to_cart_button">
+                                                            <i class="fas fa-shopping-cart"></i>
+                                                            Update Quantity
+                                                        </button>
+                                                        {{-- <a class="this_heart" href="#">
+                                                            <i class="far fa-heart"></i>
+                                                        </a> --}}
+                                                        {{-- <p><i class="fas fa-check"> </i> ADDED TO CART SUCCESSFULLY !</p> --}}
+                                                    </div>
+                                                </form>
                                         </p>
                                         <!-- Price -->
                                     </div>
@@ -152,13 +172,11 @@
                                 <form method="post" action="/paynow_visa">
                                     @csrf
                                     <div>
-                                        <input type="hidden"
-                                           name="total"
-                                            value="{{ $total }}"
-                                            class="btn btn-success"/>
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                    Checkout Using VISA | MASTERCARD
-                                    </button>
+                                        <input type="hidden" name="total" value="{{ $total }}"
+                                            class="btn btn-success" />
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                            Checkout Using VISA | MASTERCARD
+                                        </button>
                                 </form>
                                 <form method="get" action="/shipping_details" style="margin-top: 10px;">
                                     @csrf
@@ -166,14 +184,14 @@
                                         Edit Shipping Details
                                     </button>
                                 </form>
-                                @endif
-                                @else
-                                    <a href="/shop">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                            Add Products
-                                        </button>
-                                    </a>
-                                @endif
+                            @endif
+                        @else
+                            <a href="/shop">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Add Products
+                                </button>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
