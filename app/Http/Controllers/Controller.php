@@ -184,6 +184,30 @@ class Controller extends BaseController
 
         if ($response->paid()) {
             $transaction->update(['is_used' => true, 'status' => $response->paid()?"paid":"pending"]);
+            if($transaction->type == "subscription"){
+                //if exists add days not create new subscription
+                $subscription = Auth::user()->subscribed;
+                $date = Carbon::now();
+                $date->addDays(31);
+                // $date->format("Y-m-d");
+                if ($subscription != null) {
+                    if ($subscription->expires_at > Carbon::now()) {
+                        //for current expires add another days
+                        $new_date = $subscription->expires_at + $date;
+                        $subscription->update(array('expires_at'=> $new_date));
+
+                    } else {
+                        $new_date = $subscription->expires_at? $date : $date;
+                        $subscription->update(array('expires_at'=> $new_date));
+                        //add new subscription with days
+                        // $newSubscription = new Subscriptions();
+                        // $newSubscription->user_id = Auth::user()->id;
+                        // $newSubscription->expires_at = $date;
+                        // $newSubscription->save();
+                    }
+                }
+
+            }
 
             return redirect('/home')->with('status', 'Transaction Successful: The Transaction Reference is' . $transaction);
         }else{

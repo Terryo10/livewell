@@ -13,6 +13,9 @@ class Subscriptions extends Model
         'updated_at',
         // your other new column
     ];
+    protected $fillable = [
+      'expires_at'
+    ];
 
     use HasFactory;
 }
