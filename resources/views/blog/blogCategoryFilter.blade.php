@@ -55,10 +55,10 @@
             <div class="blog_list_flex_item">
                 <aside class="blog_list_sidebar sidebar">
                     <section class="widget widget_search">
-                        <form role="search" method="get" class="search-form" action="http://wptest.io/demo/">
+                        <form role="search" method="GET" class="search-form" action="{{ route('blogSearch') }}">
                             <label>
                                 <i class="fas fa-search"></i>
-                                <input class="search-field" placeholder="Search here…" type="search">
+                                <input name="search" class="search-field" placeholder="Search here…" type="search">
                             </label>
                             <button type="submit" class="search-submit">
                                 <i class="fas fa-arrow-right"></i>
@@ -69,12 +69,14 @@
                         <h2 class="widget-title">Category</h2>
                         <ul>
                             @foreach ($categories as $category)
-                               <li class="cat-item">
-                                <i class="fas fa-burn"></i>
-                                <p>
-                                  {{$category->name}}
-                                </p>
-                            </li>
+                                <li class="cat-item">
+                                    <a href="/blogCategory/{{$category->id}}">
+                                        <i class="fas fa-burn"></i>
+                                        <p>
+                                            {{$category->name}}
+                                        </p>
+                                    </a>
+                                </li>
                             @endforeach
 
 
