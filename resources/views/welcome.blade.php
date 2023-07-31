@@ -7,6 +7,11 @@
     <br>
     <br>
     <br>
+    <style type="text/css">
+        .sn_related_product {
+            box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
     <section class="banner_static">
         <div class="vigo_container_one">
             <div class="banner_static_flex">
@@ -72,38 +77,38 @@
     <!--=        Banner         =-->
     <!--==========================-->
     <div class="hidden-mobile">
-    <section class="home_five_service hidden-md hidden-xs">
-        <div class="vigo_container_one">
-            <div class="home_five_single_service">
-                <div class="home_five_single_service_inner clearfix">
-                    <div class="home_five_single_service_img">
-                        <img src="{{ asset('gymer/media/images/home6/women.png') }}" alt="">
-                    </div>
-                    <div class="home_five_single_service_left">
+        <section class="home_five_service hidden-md hidden-xs">
+            <div class="vigo_container_one">
+                <div class="home_five_single_service">
+                    <div class="home_five_single_service_inner clearfix">
+                        <div class="home_five_single_service_img">
+                            <img src="{{ asset('gymer/media/images/home6/women.png') }}" alt="">
+                        </div>
+                        <div class="home_five_single_service_left">
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="home_five_single_service">
-                <div class="home_five_single_service_inner clearfix">
-                    <div class="home_five_single_service_img">
-                        <img src="{{ asset('gymer/media/images/home6/men.png') }}" alt="">
+                <div class="home_five_single_service">
+                    <div class="home_five_single_service_inner clearfix">
+                        <div class="home_five_single_service_img">
+                            <img src="{{ asset('gymer/media/images/home6/men.png') }}" alt="">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="home_five_single_service">
-                <div class="home_five_single_service_inner clearfix">
-                    <div class="home_five_single_service_img">
-                        <img src="{{ asset('gymer/media/images/home6/basket.png') }}" alt="">
-                    </div>
-                    <div class="home_five_single_service_left">
-                        <h3>Living Healthy</h3>
+                <div class="home_five_single_service">
+                    <div class="home_five_single_service_inner clearfix">
+                        <div class="home_five_single_service_img">
+                            <img src="{{ asset('gymer/media/images/home6/basket.png') }}" alt="">
+                        </div>
+                        <div class="home_five_single_service_left">
+                            <h3>Living Healthy</h3>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
     </div>
     <div class="modal quickview-wrapper">
         <div class="quickview">
@@ -272,8 +277,8 @@
                         </a>
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
     </section>
 
     <!--==========================-->
@@ -449,15 +454,14 @@
                     <div class="col-xl-2 col-sm-6 col-lg-3">
                         <div class="sn_related_product">
                             <div class="sn_pd_img">
-                                <a href="/shop/product/{{$product->id}}">
-                                    <img src="/upload/{{$product->image}}"
-                                        alt="">
+                                <a href="/shop/product/{{ $product->id }}">
+                                    <img src="/upload/{{ $product->image }}" alt="">
                                 </a>
                             </div>
 
-                            <div class="sn_pd_detail">
+                            <div class="sn_pd_detailss">
                                 <h5>
-                                    <a href="/shop/product/{{$product->id}}">{{ $product->name }}</a>
+                                    <a href="/shop/product/{{ $product->id }}">{{ $product->name }}</a>
                                 </h5>
                                 <ins>
                                     <span>${{ $product->price }}</span>
