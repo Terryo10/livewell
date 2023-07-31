@@ -22,7 +22,7 @@ use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Products;
 use Carbon\Carbon;
-
+use Exception;
 
 class Controller extends BaseController
 {
@@ -203,6 +203,7 @@ class Controller extends BaseController
                     }
                 }
             } elseif ($transaction->type  == "consultation") {
+                try{
                 $account_email = "";
                 $consultation = Consultation::where('user_id', $user->id)->latest()->first();
                 $mailData = [
@@ -212,6 +213,10 @@ class Controller extends BaseController
                      || Message: $consultation->message"
                 ];
                 Mail::to($account_email)->send(new ConsultationBooked($mailData));
+            return redirect('/home')->with('status', 'Consultation was sent successfully');
+            }catch(Exception $error){
+                return redirect()->back()->withErrors('message', 'Failed to send email to admin with an update');
+            }
             }
 
             return redirect('/home')->with('status', 'Transaction Successful: The Transaction Reference is' . $transaction->id);
