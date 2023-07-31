@@ -38,7 +38,7 @@
                             <livewire:subscription-payment :token="$token" :pricing="$pricing" />
                         @else
                             <div class="alert alert-success" role="alert">
-                                {{ __('Your subscription is still active') }}
+                                {{ __('Your subscription is active') }}
                             </div>
                             <a class="btn-btn-primary">
                                 Your subscription expires on
@@ -83,11 +83,6 @@
                                                 <button type="submit" class="btn btn-primary btn-lg btn-block">
                                                     Order Paid
                                                 </button>
-                                                <a href="/confirm-payment/{{ $items->order_transaction->id }}">
-                                                    <button type="submit" class="btn btn-warning btn-lg btn-block">
-                                                        ReCheck Order Status
-                                                    </button>
-                                                </a>
                                             </div>
                                         @endforeach
                                     @else
@@ -121,32 +116,12 @@
                                         @endforeach
                                     @endif
                                 @else
-                                <div class="col-md-8">
+                                <div class="col-md-10">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                      This Order and Transaction Not Linked
+                                      Something happened to this order please contact us through our live chat
                                     </button>
                                 </div>
-                                    @foreach ($items->order_items as $lols)
-                                        {{-- <div class="uk-width-auto">
-                                            <img class="uk-comment-avatar uk-border-circle"
-                                                src="/upload/{{ $lols->product['image'] }}" width="50" height="50"
-                                                alt="Product Image">
-                                        </div>
-                                        <br>
-                                        <div class="col-md-6">
-                                            <p> {{ $lols->product['name'] }} X{{ $lols->quantity }} For
-                                                ${{ $lols->product->price }}</p>
 
-                                            <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                                Order Transaction Not Linked
-                                            </button>
-                                            <a href="/confirm-payment/{{ null }}">
-                                                <button type="submit" class="btn btn-warning btn-lg btn-block">
-                                                    ReCheck Order Status
-                                                </button>
-                                            </a>
-                                        </div> --}}
-                                    @endforeach
                                 @endif
                             </div>
                         </div>

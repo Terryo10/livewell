@@ -35,8 +35,8 @@ class ShopController extends Controller
     public  function category($id){
         $category = Categories::all();
         $subcategories =  SubCategories::all();
-        $products = Products::where('category_id', $id)->get();
-        return view('shop.product')
+        $products = Products::where('sub_category_id', $id)->get();
+        return view('shop.shop')
             ->with('category', $category)
             ->with('product', $products)
             ->with('subcategories', $subcategories);

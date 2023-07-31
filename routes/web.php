@@ -52,6 +52,8 @@ Route::get('shop/product/{id}', [ShopController::class, 'product']);
 
 Route::get('shop/category/{id}', [ShopController::class, 'category']);
 
+Route::get('/category/{id}', [ShopController::class, 'category']);
+
 Route::get('/paypal_visa', [CartController::class, 'visapay'])->middleware('auth');
 
 Route::post('/paynow_visa', [CartController::class, 'visapay'])->middleware('auth');

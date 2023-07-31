@@ -209,7 +209,7 @@ class Controller extends BaseController
 
             }
 
-            return redirect('/home')->with('status', 'Transaction Successful: The Transaction Reference is' . $transaction);
+            return redirect('/home')->with('status', 'Transaction Successful: The Transaction Reference is' . $transaction->id);
         }else{
             return redirect('/home')->with('status', 'Transaction was not paid please try again');
         }
