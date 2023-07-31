@@ -202,7 +202,7 @@ class Controller extends BaseController
                         // $newSubscription->save();
                     }
                 }
-            } elseif ($transaction->type  == "subscription") {
+            } elseif ($transaction->type  == "consultation") {
                 $account_email = "";
                 $consultation = Consultation::where('user_id', $user->id)->latest()->first();
                 $mailData = [
