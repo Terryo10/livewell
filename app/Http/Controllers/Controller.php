@@ -43,8 +43,8 @@ class Controller extends BaseController
             env('PAYNOW_INTERGRATION_ID'),
             env('PAYNOW_INTERGRATION_KEY'),
             // The return url can be set at later stages. You might want to do this if you want to pass data to the return url (like the reference of the transaction)
-            "$site_url/confirm-payment/$id",//return url
-            "$site_url/confirm-payment/$id",//result url
+            "$site_url/confirm-payment/$id", //return url
+            "$site_url/confirm-payment/$id", //result url
         );
     }
 
@@ -93,80 +93,77 @@ class Controller extends BaseController
         try {
 
             //new transaction
-            if(!Auth::user()->subscribed){
+            if (!Auth::user()->subscribed) {
                 $newSubscription = new Subscriptions();
                 $newSubscription->user_id = Auth::user()->id;
                 $newSubscription->save();
             }
-           if($type == "payagain"){
-            $id = $typeId;
-            $uuid = $this->generateRandomId();
-            $payment = $this->paynow($id, $type)->createPayment("$uuid", "");
-            $payment->add("$type", $price);
-            $response = $this->paynow($id, $type)->send($payment);
+            if ($type == "payagain") {
+                $id = $typeId;
+                $uuid = $this->generateRandomId();
+                $payment = $this->paynow($id, $type)->createPayment("$uuid", "");
+                $payment->add("$type", $price);
+                $response = $this->paynow($id, $type)->send($payment);
 
-            if ($response->success) {
-                $update_tran = Transaction::find($id);
-                $update_tran->update(['poll_url'=>$response->pollUrl()]);
+                if ($response->success) {
+                    $update_tran = Transaction::find($id);
+                    $update_tran->update(['poll_url' => $response->pollUrl()]);
 
-                $link = $response->redirectUrl();
-                return redirect()->to($link);
+                    $link = $response->redirectUrl();
+                    return redirect()->to($link);
+                } else {
+                    return redirect()->back()->WithErrors(['message' => 'Oops something went wrong while trying to proccess your transaction please try again']);
+                }
             } else {
-                return redirect()->back()->WithErrors(['message' => 'Oops something went wrong while trying to proccess your transaction please try again']);
-            }
+                $user = Auth::user();
+                $tran = new Transaction();
+                $tran->amount = $price;
+                $tran->currency = "USD";
+                $tran->payment_method = "PAYNOW";
+                $tran->poll_url = "";
+                $tran->user_id = $user->id;
+                $tran->type = $type;
+                $tran->subscription_id = $user->subscribed->id;
+                $tran->save();
+                $transaction_update = Order::findorFail($typeId)->update(['transaction_id' => $tran->id]);
 
-           }else{
-            $user = Auth::user();
-            $tran = new Transaction();
-            $tran->amount = $price;
-            $tran->currency = "USD";
-            $tran->payment_method = "PAYNOW";
-            $tran->poll_url = "";
-            $tran->user_id = $user->id;
-            $tran->type = $type;
-            $tran->subscription_id = $user->subscribed->id;
-            $tran->save();
-            $transaction_update = Order::findorFail($typeId)->update(['transaction_id' => $tran->id]);
-
-            if($type == 'consultation'){
-                $booking_order = new BookingOrders();
-                $booking_order->user_id = auth()->user()->id;
-                $booking_order->booking_fee = BookingFee::all()->first()->booking_fee;
-                $booking_order->transaction_ref = $tran->id;
-                $booking_order->transaction_id = $tran->id;
-                $booking_order->consultation_id = $typeId;
-                $booking_order->save();
-            }elseif($type == "checkout"){
-                $transaction_update = Order::find($typeId)->update(['transaction_id' => $tran->id]);
-                //update Order transaction_id to link it up with the transaction
-            }
-
-            $id = $tran->id;
-            $uuid = $this->generateRandomId();
-            $payment = $this->paynow($id, $type)->createPayment("$uuid", $user->email);
-            $payment->add("$type", $price);
-            $response = $this->paynow($id, $type)->send($payment);
-
-            if ($response->success) {
-                $update_tran = Transaction::find($tran->id);
-                $update_tran->update([ 'poll_url' => $response->pollUrl(), 'order_id'=> $typeId]);
-                if($type =="consultation"){
-                    $tran->update(['poll_url' => $response->pollUrl()]);//update poll_url before redirecting the user to redirect url
-                }elseif ($type == "checkout"){
-                    $order = Order::find($typeId);
-                    $order->update(['poll_url'=>$response->pollUrl(),'transaction_id' => $tran->id]);
-                }elseif ($type == "subscription"){
-                    $tran->update(['poll_url' => $response->pollUrl()]);
+                if ($type == 'consultation') {
+                    $booking_order = new BookingOrders();
+                    $booking_order->user_id = auth()->user()->id;
+                    $booking_order->booking_fee = BookingFee::all()->first()->booking_fee;
+                    $booking_order->transaction_ref = $tran->id;
+                    $booking_order->transaction_id = $tran->id;
+                    $booking_order->consultation_id = $typeId;
+                    $booking_order->save();
+                } elseif ($type == "checkout") {
+                    $transaction_update = Order::find($typeId)->update(['transaction_id' => $tran->id]);
+                    //update Order transaction_id to link it up with the transaction
                 }
 
-                $link = $response->redirectUrl();
-                return redirect()->to($link);
-            } else {
-                return redirect()->back()->WithErrors(['message' => 'Oops something went wrong while trying to proccess your transaction please try again']);
+                $id = $tran->id;
+                $uuid = $this->generateRandomId();
+                $payment = $this->paynow($id, $type)->createPayment("$uuid", $user->email);
+                $payment->add("$type", $price);
+                $response = $this->paynow($id, $type)->send($payment);
+
+                if ($response->success) {
+                    $update_tran = Transaction::find($tran->id);
+                    $update_tran->update(['poll_url' => $response->pollUrl(), 'order_id' => $typeId]);
+                    if ($type == "consultation") {
+                        $tran->update(['poll_url' => $response->pollUrl()]); //update poll_url before redirecting the user to redirect url
+                    } elseif ($type == "checkout") {
+                        $order = Order::find($typeId);
+                        $order->update(['poll_url' => $response->pollUrl(), 'transaction_id' => $tran->id]);
+                    } elseif ($type == "subscription") {
+                        $tran->update(['poll_url' => $response->pollUrl()]);
+                    }
+
+                    $link = $response->redirectUrl();
+                    return redirect()->to($link);
+                } else {
+                    return redirect()->back()->WithErrors(['message' => 'Oops something went wrong while trying to proccess your transaction please try again']);
+                }
             }
-
-
-        }
         } catch (\Throwable $th) {
             $th->getMessage();
             return redirect()->back()->with('message', $th->getMessage());
@@ -183,8 +180,8 @@ class Controller extends BaseController
         $type = $transaction->type;
 
         if ($response->paid()) {
-            $transaction->update(['is_used' => true, 'status' => $response->paid()?"paid":"pending"]);
-            if($transaction->type == "subscription"){
+            $transaction->update(['is_used' => true, 'status' => $response->paid() ? "paid" : "pending"]);
+            if ($transaction->type == "subscription") {
                 //if exists add days not create new subscription
                 $subscription = Auth::user()->subscribed;
                 $date = Carbon::now();
@@ -194,11 +191,10 @@ class Controller extends BaseController
                     if ($subscription->expires_at > Carbon::now()) {
                         //for current expires add another days
                         $new_date = $subscription->expires_at + $date;
-                        $subscription->update(array('expires_at'=> $new_date));
-
+                        $subscription->update(array('expires_at' => $new_date));
                     } else {
-                        $new_date = $subscription->expires_at? $date : $date;
-                        $subscription->update(array('expires_at'=> $new_date));
+                        $new_date = $subscription->expires_at ? $date : $date;
+                        $subscription->update(array('expires_at' => $new_date));
                         //add new subscription with days
                         // $newSubscription = new Subscriptions();
                         // $newSubscription->user_id = Auth::user()->id;
@@ -206,11 +202,20 @@ class Controller extends BaseController
                         // $newSubscription->save();
                     }
                 }
-
+            } elseif ($transaction->type  == "subscription") {
+                $account_email = "";
+                $consultation = Consultation::where('user_id', $user->id)->latest()->first();
+                $mailData = [
+                    'title' => "Someone Booked Consultation On Date: $consultation->date ",
+                    'body' => "Someone Booked Consultation On || Date: $consultation->date ||
+                     Email: $user->email ||  Phone:  $consultation->phone
+                     || Message: $consultation->message"
+                ];
+                Mail::to($account_email)->send(new ConsultationBooked($mailData));
             }
 
             return redirect('/home')->with('status', 'Transaction Successful: The Transaction Reference is' . $transaction->id);
-        }else{
+        } else {
             return redirect('/home')->with('status', 'Transaction was not paid please try again');
         }
     }
