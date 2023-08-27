@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ae74b1cba23223ded7ee37c233daee9",
+    "content-hash": "8f37002daf84c34364c2e366577799d0",
     "packages": [
         {
             "name": "braintree/braintree_php",
@@ -1435,6 +1435,62 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "jxlwqq/file-manager",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jxlwqq/file-manager.git",
+                "reference": "8cf97f2d354be339c3d6fce0fbb661a71e7f04d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jxlwqq/file-manager/zipball/8cf97f2d354be339c3d6fce0fbb661a71e7f04d6",
+                "reference": "8cf97f2d354be339c3d6fce0fbb661a71e7f04d6",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Jxlwqq\\FileManager\\FileManagerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jxlwqq\\FileManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jxlwqq",
+                    "email": "jxlwqq@gmail.com"
+                }
+            ],
+            "description": "file manager for laravel-admin",
+            "homepage": "https://github.com/jxlwqq/file-manager",
+            "keywords": [
+                "extension",
+                "laravel-admin"
+            ],
+            "support": {
+                "issues": "https://github.com/jxlwqq/file-manager/issues",
+                "source": "https://github.com/jxlwqq/file-manager/tree/master"
+            },
+            "time": "2019-03-30T07:13:44+00:00"
         },
         {
             "name": "laravel-admin-ext/ckeditor",

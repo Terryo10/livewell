@@ -63,6 +63,13 @@ return [
             'url' => env('APP_URL') . '/upload/',
         ],
 
+        'extensions' => [
+            'file-manager' => [
+                // Select a local disk that you configured in `config/filesystem.php`
+                'disk' => 'public'
+            ],
+        ],
+
     ],
 
     /*
