@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\PayPalPaymentController;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -75,3 +76,9 @@ Route::post('/pay', [CartController::class, 'checkoutBraintree'])->name('pay.bra
 Route::get('/consultation', [\App\Http\Controllers\ConsultationController::class, 'index'])->middleware('auth');
 
 Route::post('/consultation/booking', [\App\Http\Controllers\ConsultationController::class, 'store'])->middleware('auth')->name('consultation.booking');
+
+Route::post('/handle-payment', [PayPalPaymentController::class, 'handlePayment'])->name('paypal.payment');
+
+Route::get('/cancel-payment/{id}', [PayPalPaymentController::class, 'paymentCancel'])->name('paypalCancel.payment');
+
+Route::get('/success-payment/{id}', [PayPalPaymentController::class, 'paymentSuccess'])->name('paypalSuccess.payment');

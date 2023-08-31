@@ -27,7 +27,7 @@
                       <div class="blog_single_list">
                         <div class="blog_single_list_img">
                             <div class="post-thumbnail">
-                                <img src="/upload/{{$post->image_path}}" alt="!!">
+                                <img class="img-fluid" src="/upload/{{$post->image_path}}" alt="!!">
                             </div>
                             <a href="/post/{{$post->id}}" class="blog_single_list_btn">
                                 <span>read</span>
@@ -42,7 +42,6 @@
                             </h3>
                             <div class="blog_meta">
                                 <a href="/post/{{$post->id}}">
-                                    <span>24<sup>th</sup> December</span>
                                 </a>
                             </div>
                         </div>

@@ -97,27 +97,29 @@
                                         <!-- Price -->
                                         <p class="text-start text-md-center">
                                             <strong>$ {{ $items->product->price }} </strong>
-                                            <form action="{{route('savetocart')}}" class="product-cart" method="post">
-                                                @csrf
-                                                    <div class="product-quantity quantity">
-                                                        <input id="Quantity" name="quantity" value="{{$items->quantity}}" data-product-qty=""
-                                                            class="cart__quantity-selector quantity-selector" type="text" min="1" max="{{$items->product->stock}}" >
-                                                        <input value="-" class="qtyminus looking" type="button">
-                                                        <input value="+" class="qtyplus looking" type="button">
-                                                    </div>
-                                                    <input type="hidden" name="product_id" value="{{$items->product->id}}">
-                                                    <input type="hidden" name="is_update" value="{{$items->product->id}}">
-                                                    <div class="ingredient_slider_btn">
-                                                        <button type="submit" class="single_add_to_cart_button" style="margin-top: 10px;">
-                                                            <i class="fas fa-shopping-cart"></i>
-                                                            Update Quantity
-                                                        </button>
-                                                        {{-- <a class="this_heart" href="#">
+                                        <form action="{{ route('savetocart') }}" class="product-cart" method="post">
+                                            @csrf
+                                            <div class="product-quantity quantity">
+                                                <input id="Quantity" name="quantity" value="{{ $items->quantity }}"
+                                                    data-product-qty="" class="cart__quantity-selector quantity-selector"
+                                                    type="text" min="1" max="{{ $items->product->stock }}">
+                                                <input value="-" class="qtyminus looking" type="button">
+                                                <input value="+" class="qtyplus looking" type="button">
+                                            </div>
+                                            <input type="hidden" name="product_id" value="{{ $items->product->id }}">
+                                            <input type="hidden" name="is_update" value="{{ $items->product->id }}">
+                                            <div class="ingredient_slider_btn">
+                                                <button type="submit" class="single_add_to_cart_button"
+                                                    style="margin-top: 10px;">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                    Update Quantity
+                                                </button>
+                                                {{-- <a class="this_heart" href="#">
                                                             <i class="far fa-heart"></i>
                                                         </a> --}}
-                                                        {{-- <p><i class="fas fa-check"> </i> ADDED TO CART SUCCESSFULLY !</p> --}}
-                                                    </div>
-                                                </form>
+                                                {{-- <p><i class="fas fa-check"> </i> ADDED TO CART SUCCESSFULLY !</p> --}}
+                                            </div>
+                                        </form>
                                         </p>
                                         <!-- Price -->
                                     </div>
@@ -136,7 +138,7 @@
                 </div>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <p><strong>Expected shipping delivery</strong></p>
+                        <p><strong></strong></p>
                         <p class="mb-0">...</p>
                     </div>
                 </div>
@@ -170,6 +172,17 @@
                                         <span><strong>$ {{ $total }}</strong></span>
                                     </li>
                                 </ul>
+                                <form method="post" action="/handle-payment" style="margin-bottom: 10px !important;">
+                                    @csrf
+                                    <div>
+                                        <input type="hidden" name="checkout" value="1" />
+                                        <input type="hidden" name="total" value="{{ $total }}"
+                                            class="btn btn-success" />
+                                        <button type="submit" style="margin-bottom: 10px !important;"
+                                            class="btn btn-primary btn-lg btn-block">
+                                            Checkout Using PayPal
+                                        </button>
+                                </form>
                                 <form method="post" action="/paynow_visa">
                                     @csrf
                                     <div>

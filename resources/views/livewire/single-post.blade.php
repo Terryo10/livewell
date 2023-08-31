@@ -14,7 +14,7 @@
 								<li>
 									<span class="posted-on">
 										<a href="#" class="entry-date">
-											<span>24 <sup>th</sup> December, 2018</span>
+											{{$post->created_at}}
 										</a>
 									</span>
 									<span class="category">
@@ -22,9 +22,9 @@
 									</span>
 								</li>
 								<li>
-									<a href="#"><i class="fa fa-comments-o"></i>
+									{{-- <a href="#"><i class="fa fa-comments-o"></i>
 										comments (13)
-									</a>
+									</a> --}}
 								</li>
 							</ul>
 							<!-- .entry-meta -->

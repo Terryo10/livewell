@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Pricing;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -35,8 +36,15 @@ class PaymentsController extends Controller
     {
         $price = Pricing::all();
         $user = Auth::user();
+        $order = new Order();
+        $order->user_id = Auth::id();
+        $order->delivery_id = $user->id;
+        $order->paymentStatus = "pending";
+        $order->status = 'ordered';
+        $order->transaction_id = 0;
+        $order->save();
         try {
-            return $this->createPaynowPayment($price[0]->price, "subscription",$user->subscribed->id);
+            return $this->createPaynowPayment($price[0]->price, "subscription", $order->id);
         } catch (\Throwable $th) {
             $th->getMessage();
             return redirect()->back()->with('message', $th->getMessage());

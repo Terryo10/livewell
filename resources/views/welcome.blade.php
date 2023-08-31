@@ -11,6 +11,45 @@
         .sn_related_product {
             box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
         }
+
+        .banner_static {
+            height: fit-content !important;
+            margin-bottom: 100px !important;
+        }
+
+        .btn_download {
+            margin: 10px 0px;
+            height: fit-content !important;
+        }
+
+        #header {
+            display: block !important;
+            margin-bottom: 300px !important;
+        }
+
+        #mobile-logo img {
+            width: 150px !important;
+            height: fit-content;
+        }
+
+        @media only screen and (max-width: 770px) {
+            .home5_video_total .section_title_four {
+                display: block !important;
+                position: relative !important;
+            }
+        }
+
+        @media only screen and (min-width: 800px) {
+            .banner_static {
+                margin-top: 150px !important;
+            }
+
+            .banner_static_download p {
+                color: #6c6c6c;
+                font-weight: 300;
+                font-size: 20px !important;
+            }
+        }
     </style>
     <section class="banner_static">
         <div class="vigo_container_one">
@@ -46,13 +85,11 @@
                             expert guidance and support, you can take control of your health and unlock your full potential.
                             Experience true vitality and well-being – start your journey to functional health today.
                         </p>
-                        <br>
-                        <br>
+                        <br />
                         <a href="/posts" class="btn_download">
                             Get Started
                         </a>
-                        <br>
-                        <br>
+                        <br />
                         <a href="/consultation" class="btn_download">
                             Book For A Consultation
                         </a>
@@ -72,12 +109,16 @@
             </div>
         </div>
     </section>
+    <br />
+    <br />
+    <br />
+    <br />
 
     <!--==========================-->
     <!--=        Banner         =-->
     <!--==========================-->
     <div class="hidden-mobile">
-        <section class="home_five_service hidden-md hidden-xs">
+        <section class="home_five_service hidden-md hidden-xs" style="position: relative !important;">
             <div class="vigo_container_one">
                 <div class="home_five_single_service">
                     <div class="home_five_single_service_inner clearfix">

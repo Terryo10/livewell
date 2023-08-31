@@ -47,12 +47,16 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-@stack('style')
+    @stack('style')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <style>
+        .banner_static_left {
+            margin-top: 200px;
+        }
+
         @media (max-width: 767px) {
             .hidden-mobile {
                 display: none;
@@ -86,14 +90,14 @@
                                             <i class="fas fa-shopping-basket"></i>
                                             <div class="cart_detail">
                                                 @foreach ($cartItemsGlobal as $cartItem)
-
                                                     <div class="single_cart">
                                                         <div class="cart_left">
                                                             <img src="/upload/{{ $cartItem->product->image }}"
                                                                 alt="">
                                                         </div>
                                                         <div class="cart_right">
-                                                            <h3>{{ $cartItem->product->name }} x {{ $cartItem->quantity }}</h3>
+                                                            <h3>{{ $cartItem->product->name }} x
+                                                                {{ $cartItem->quantity }}</h3>
                                                             <p>${{ $cartItem->product->price }}<sup>USD</sup></p>
                                                         </div>
                                                     </div>
@@ -235,15 +239,16 @@
                     <div class="mobile_toolbar">
                         <div class="vigo_container_one">
                             <div class="top_toolbar_right">
-                                <div class="phone_number" >
-                                    <span class="flaticon-phone-call"></span> <a tel="#" style="color: white">+263 71 284 5358</a>
+                                <div class="phone_number">
+                                    <span class="flaticon-phone-call"></span> <a tel="#"
+                                        style="color: white">+263 71 284 5358</a>
                                 </div>
                                 <div class="header_login">
                                     <div class="whc_toolbar_main_login">
                                         @guest
-                                        <a href="/register">register</a>|
-                                        <a href="/login">login</a>
-                                            @else
+                                            <a href="/register">register</a>|
+                                            <a href="/login">login</a>
+                                        @else
                                             <a href="/home">My Account</a>
                                         @endguest
                                     </div>
@@ -256,7 +261,7 @@
                         <div class="bottom_nav bottom_nav_two">
                             <div id="mobile-logo">
                                 <a href="/">
-                                    <img src="{{ asset('logo.png') }}" alt="" style="height:90px;">
+                                    <img src="{{ asset('logo.png') }}" alt="" style="height:50px;">
                                 </a>
                             </div>
                             <div class="toggle-inner">
@@ -286,7 +291,7 @@
 
                         </li>
                         <li>
-                            <a href="/blog">Blog</a>
+                            <a href="/posts">Blog</a>
                         </li>
                         <li>
                             <a href="/shop">Shop</a>
@@ -295,17 +300,16 @@
                             <a href="/cart">My Shopping Cart</a>
                         </li>
 
-                            <li><a  href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
+                        <li><a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
+                                {{ __('Logout') }}
+                            </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}"
-                                      method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
 
 
 
@@ -361,7 +365,7 @@
                                     <i class="fas fa-arrow-down"></i>
                                     <span>CHAT TO US IN OUR LIVE CHAT TO YOUR BOTTOM RIGHT.</span>
                                 </label>
-{{--                                <input type="text" placeholder="type your email here...">--}}
+                                {{--                                <input type="text" placeholder="type your email here..."> --}}
                                 <button>
                                     <i class="material-icons">
                                         send
@@ -398,11 +402,11 @@
                             <div class="widget5_desc">
                                 <a href="/shop">
                                     <i class="fas fa-caret-right"></i>
-                                   Shop
+                                    Shop
                                 </a>
                                 <a href="/home">
                                     <i class="fas fa-caret-right"></i>
-                                   Account
+                                    Account
                                 </a>
                                 <a href="/posts">
                                     <i class="fas fa-caret-right"></i>
@@ -431,25 +435,26 @@
                         </div>
                         <div class="footer_four_bottom_right">
                             <a href="#">
-                                <img src="{{asset('gymer/media/images/home6/visa.png')}}" alt="">
+                                <img src="{{ asset('gymer/media/images/home6/visa.png') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{asset('gymer/media/images/home6/american-express.png')}}" alt="">
+                                <img src="{{ asset('gymer/media/images/home6/american-express.png') }}"
+                                    alt="">
                             </a>
                             <a href="#">
-                                <img src="{{asset('gymer/media/images/home6/discover.png')}}" alt="">
+                                <img src="{{ asset('gymer/media/images/home6/discover.png') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{asset('gymer/media/images/home6/paypal.png')}}" alt="">
+                                <img src="{{ asset('gymer/media/images/home6/paypal.png') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{asset('gymer/media/images/home6/stripe.png')}}" alt="">
+                                <img src="{{ asset('gymer/media/images/home6/stripe.png') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{asset('gymer/media/images/home6/nettler.png')}}" alt="">
+                                <img src="{{ asset('gymer/media/images/home6/nettler.png') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{asset('gymer/media/images/home6/payoneer.png')}}" alt="">
+                                <img src="{{ asset('gymer/media/images/home6/payoneer.png') }}" alt="">
                             </a>
                         </div>
                         <div class="backtotop">

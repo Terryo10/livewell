@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\ConsultationBooked;
 use App\Models\BookingFee;
-use App\Models\BookingOrders;
 use App\Models\Consultation;
+use App\Models\BookingOrders;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -32,6 +33,14 @@ class ConsultationController extends Controller
         $consultation->phone = $request->phone;
         $consultation->save();
 
+        $order = new Order();
+        $order->user_id = \Auth::id();
+        $order->delivery_id = $consultation->id;
+        $order->paymentStatus = "pending";
+        $order->status = 'ordered';
+        $order->transaction_id = 0;
+        $order->save();
+
 
         //send email to authenticated user
         $user = auth()->user();
@@ -44,6 +53,6 @@ class ConsultationController extends Controller
         $bookingFees = BookingFee::all();
         $bookingFee = $bookingFees[0]->booking_fee;
 
-        return  $this->createPaynowPayment($bookingFee, "consultation", $consultation->id);
+        return  $this->createPaynowPayment($bookingFee, "consultation", $order->id, "paynow");
     }
 }

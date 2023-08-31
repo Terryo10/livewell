@@ -26,7 +26,7 @@
                             </div>
                             <a href="/subscriptions">
                                 <p class="sign-up-single-button">
-                                    <input type="submit" value="  {{ __(' Subscribe Now') }}">
+                                    <input style="width: fit-content !important;" type="submit" value="  {{ __(' Subscribe Now') }}">
 
                                 </p>
                             </a>
@@ -80,7 +80,7 @@
                                                 <p> {{ $thing->product['name'] }} X{{ $thing->quantity }} For
                                                     ${{ $thing->product->price }}</p>
 
-                                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                                <button type="submit" style="width: fit-content !important;" class="btn btn-primary btn-lg btn-block">
                                                     Order Paid
                                                 </button>
                                             </div>
@@ -103,12 +103,23 @@
                                                         class="btn btn-success" />
                                                     <input type="hidden" name="tran_id" value="{{ $items->order_transaction->id }}"
                                                         class="btn btn-warning" />
-                                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                                        Order Not Paid Pay Now
+                                                    <button style="width: fit-content !important;" type="submit" class="btn btn-primary btn-lg btn-block">
+                                                        Order Not Paid Pay using PayNow
+                                                    </button>
+                                                </form>
+                                                <form method="post" action="/handle-payment">
+                                                    @csrf
+                                                   <input type="hidden" name="order" value="1" />
+                                                    <input type="hidden" name="total" value="{{ $thing->quantity * $thing->product->price }}"
+                                                        class="btn btn-success" />
+                                                    <input type="hidden" name="tran_id" value="{{ $items->order_transaction->id }}"
+                                                        class="btn btn-warning" />
+                                                    <button style="width: fit-content !important;margin: 20px 0px;" type="submit" class="btn btn-primary btn-lg btn-block">
+                                                     Pay Using PayPal
                                                     </button>
                                                 </form>
                                                 <a href="/confirm-payment/{{ $items->order_transaction->id }}">
-                                                    <button type="submit" class="btn btn-warning btn-lg btn-block">
+                                                    <button style="width: fit-content !important;" type="submit" class="btn btn-warning btn-lg btn-block">
                                                         ReCheck Order Status
                                                     </button>
                                                 </a>
@@ -117,9 +128,9 @@
                                     @endif
                                 @else
                                 <div class="col-md-10">
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    <p>
                                       Something happened to this order please contact us through our live chat
-                                    </button>
+                                    </p>
                                 </div>
 
                                 @endif
